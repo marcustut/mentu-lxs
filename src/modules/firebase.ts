@@ -2,12 +2,12 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 const config = {
-  apiKey: 'AIzaSyDP6wWLQAtklXfop3O7gDBiMBsd-86XXYw',
-  authDomain: 'mentu-lxs.firebaseapp.com',
-  projectId: 'mentu-lxs',
-  storageBucket: 'mentu-lxs.appspot.com',
-  messagingSenderId: '408026763213',
-  appId: '1:408026763213:web:c138d2e999fcb364347e84',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
 firebase.initializeApp(config)
