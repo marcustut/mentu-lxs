@@ -7,7 +7,7 @@ import { useHead } from '@vueuse/head'
 useHead({
   title: '门徒练习生',
   meta: [
-    { name: 'description', content: 'Opinionated Vite Starter Template' },
+    { name: 'description', content: '新一代创造力与影响力' },
   ],
 })
 </script>
