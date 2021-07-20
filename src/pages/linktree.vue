@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const links = [
   { img: 'https://pics.freeicons.io/uploads/icons/png/18579954981556105328-512.png', title: 'Notion', link: 'https://marcustut.notion.site/ecba028a1c3448a18e44c6a9e0cd3c78' },
   { img: 'https://lh3.googleusercontent.com/proxy/-7zQAoRw-hfSlNo5WPCy2qoMsQ2EQAg5L7GQCouNdayMD3qTFT_YAth2h7X05aZ2Bw4xNKtTYlbVKGMJJoMuUTTnh6Hb4dE2dXrbAgOkjmGcD9VjEuy5jVN9HEpGyq8-8FjPQK-LPzilkqLa-6bqp_T4eULWOAMD', title: 'Student Portal', link: 'https://mentu-lxs.netlify.app' },
@@ -23,8 +22,7 @@ const links = [
       h="full"
     >
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/CYCYW.jpg?alt=media&token=20e868cd-fefb-4311-b8c6-ea09382786a9"
-        border="rounded-full"
+        src="https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/Icon.png?alt=media&token=d72bc58e-b45a-401d-b370-9b961213352c"
         w="20"
         h="20"
       />
