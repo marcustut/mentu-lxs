@@ -12,6 +12,13 @@ export default defineConfig({
   ],
   theme: {
     extend: {
+      colors: {
+        neonGreen: '#C6F519',
+        textDark: '#303030',
+      },
+      fontFamily: {
+        sans: ['Noto Sans SC', 'sans-serif'],
+      },
       typography: {
         DEFAULT: {
           css: {

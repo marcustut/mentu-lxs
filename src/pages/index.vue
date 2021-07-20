@@ -3,7 +3,7 @@
 // import { useI18n } from 'vue-i18n'
 import { useAuth } from '@vueuse/firebase'
 import AuthController from '~/components/AuthController.vue'
-import { firebase, signIn, signOut } from '~/modules/firebase'
+import { firebase, signOut } from '~/modules/firebase'
 
 const { isAuthenticated, user } = useAuth(firebase.auth)
 
