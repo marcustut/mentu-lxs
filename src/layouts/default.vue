@@ -1,9 +1,14 @@
+<script setup lang="ts">
+import AuthController from '~/components/AuthController.vue'
+import Navbar from '~/components/Navbar.vue'
+</script>
+
 <template>
-  <main class="text-gray-700 dark:text-gray-200">
-    <router-view />
-    <!-- <Footer /> -->
-    <!-- <div class="mt-5 mx-auto text-center opacity-25 text-sm">
-      [Default Layout]
-    </div>-->
+  <main text="gray-700 dark:gray-200">
+    <AuthController />
+    <Navbar class="p-4" />
+    <div class="px-4">
+      <router-view />
+    </div>
   </main>
 </template>

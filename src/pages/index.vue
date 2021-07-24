@@ -2,7 +2,6 @@
 // import { useRouter } from 'vue-router'
 // import { useI18n } from 'vue-i18n'
 import { useAuth } from '@vueuse/firebase'
-import AuthController from '~/components/AuthController.vue'
 import { firebase, signOut } from '~/modules/firebase'
 
 const { isAuthenticated, user } = useAuth(firebase.auth)
@@ -17,9 +16,10 @@ const { isAuthenticated, user } = useAuth(firebase.auth)
 </script>
 
 <template>
-  <AuthController />
   <div class="mx-auto">
-    <button @click="signOut">Sign Out</button>
+    <button @click="signOut">
+      Sign Out
+    </button>
     <pre>isAuthenticated: {{ isAuthenticated }}</pre>
     <pre>{{ user }}</pre>
   </div>

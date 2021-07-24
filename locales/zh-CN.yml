@@ -11,3 +11,13 @@ intro:
   hi: 你好，{name}
   whats-your-name: 输入你的名字
 not-found: 未找到页面
+login:
+  header: 门徒练习生
+  description: 在还未进入您的 学员区 前请先登入
+  google_login: 谷歌登入
+menu:
+  toggle_theme_dark: 暗黑模式
+  toggle_theme_light: 优亮模式
+  change_language_cn: 中文
+  change_language_en: 英文
+  sign_out: 登出

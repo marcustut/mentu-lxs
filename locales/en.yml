@@ -11,3 +11,13 @@ intro:
   hi: Hi, {name}!
   whats-your-name: What's your name?
 not-found: Not found
+login:
+  header: Discple Trainer
+  description: In order to continue to the student portal, please first login
+  google_login: Sign In with Google
+menu:
+  toggle_theme_dark: Dark Mode
+  toggle_theme_light: Light Mode
+  change_language_cn: Chinese
+  change_language_en: English
+  sign_out: Sign Out

@@ -4,16 +4,22 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AuthController: typeof import('./src/components/AuthController.vue')['default']
-    CarbonCampsite: typeof import('virtual:vite-icons/carbon/campsite')['default']
-    CarbonDicomOverlay: typeof import('virtual:vite-icons/carbon/dicom-overlay')['default']
-    CarbonLanguage: typeof import('virtual:vite-icons/carbon/language')['default']
-    CarbonLogoGithub: typeof import('virtual:vite-icons/carbon/logo-github')['default']
-    CarbonMoon: typeof import('virtual:vite-icons/carbon/moon')['default']
-    CarbonPedestrian: typeof import('virtual:vite-icons/carbon/pedestrian')['default']
-    CarbonSun: typeof import('virtual:vite-icons/carbon/sun')['default']
+    BxBxMenu: typeof import('virtual:vite-icons/bx/bx-menu')['default']
+    BxBxsMoon: typeof import('virtual:vite-icons/bx/bxs-moon')['default']
     CarbonWarning: typeof import('virtual:vite-icons/carbon/warning')['default']
+    CiMenuDuo: typeof import('virtual:vite-icons/ci/menu-duo')['default']
+    'FaSolid:sun': typeof import('virtual:vite-icons/fa-solid/sun')['default']
+    FeatherHome: typeof import('virtual:vite-icons/feather/home')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
+    'GrommetIcons:google': typeof import('virtual:vite-icons/grommet-icons/google')['default']
+    'HeroiconsOutline:logout': typeof import('virtual:vite-icons/heroicons-outline/logout')['default']
+    'HeroiconsOutline:menuAlt2': typeof import('virtual:vite-icons/heroicons-outline/menu-alt2')['default']
+    LocaleToggle: typeof import('./src/components/LocaleToggle.vue')['default']
+    Navbar: typeof import('./src/components/Navbar.vue')['default']
+    PixelarticonsDashbaord: typeof import('virtual:vite-icons/pixelarticons/dashbaord')['default']
     README: typeof import('./src/components/README.md')['default']
+    ThemeToggle: typeof import('./src/components/ThemeToggle.vue')['default']
+    UilEnglishToChinese: typeof import('virtual:vite-icons/uil/english-to-chinese')['default']
   }
 }
 

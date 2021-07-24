@@ -13,7 +13,7 @@ export default defineConfig({
   theme: {
     extend: {
       colors: {
-        neonGreen: '#C6F519',
+        neonGreen: '#9bf73c',
         textDark: '#303030',
       },
       fontFamily: {
