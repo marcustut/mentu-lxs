@@ -12,7 +12,7 @@ intro:
   whats-your-name: What's your name?
 not-found: Not found
 login:
-  header: Discple Trainer
+  header: Discple Trainee
   description: In order to continue to the student portal, please first login
   google_login: Sign In with Google
 menu:

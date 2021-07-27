@@ -3,7 +3,8 @@ import { Dialog, DialogOverlay, Menu, MenuButton, MenuItems, MenuItem, Transitio
 import { useAuth } from '@vueuse/firebase'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { firebase } from '~/modules/firebase'
+import { Icon } from '@iconify/vue'
+import { firebase, signOut } from '~/modules/firebase'
 import { isDark, toggleDark } from '~/logic'
 
 const props = defineProps({
@@ -26,6 +27,12 @@ const toggleLocale = () => {
   else
     locale.value = 'en'
 }
+
+const routes = [
+  { name: 'Home', icon: 'flat-color-icons:home', path: '/' },
+  { name: 'Launching', icon: 'emojione-confetti-ball', path: '/launching' },
+  { name: 'Linktree', icon: 'emojione-v1:evergreen-tree', path: '/linktree' },
+]
 
 const { t } = useI18n()
 </script>
@@ -96,7 +103,7 @@ const { t } = useI18n()
             @click="toggleLocale"
           >
             <uil-english-to-chinese m="r-2" />
-            <span v-if="locale === 'en'">{{ t('menu.change_language_en') }}</span>
+            <span v-if="locale.value === 'en'">{{ t('menu.change_language_en') }}</span>
             <span v-else>{{ t('menu.change_language_cn') }}</span>
           </button>
         </MenuItem>
@@ -111,6 +118,7 @@ const { t } = useI18n()
             border="rounded-xl"
             outline="focus:outline-none"
             transition="colors duration-200 ease-in-out"
+            @click="signOut"
           >
             <heroicons-outline:logout m="r-2" />
             <span>{{ t('menu.sign_out') }}</span>
@@ -145,6 +153,9 @@ const { t } = useI18n()
           text="gray-700 dark:gray-200"
         >
           <button
+            v-for="(route, index) in routes"
+            :key="route.name"
+            :m="index !== 0 ? 't-2' : ''"
             w="full"
             p="x-4 y-2"
             bg="hover:neonGreen"
@@ -155,44 +166,13 @@ const { t } = useI18n()
             border="rounded-xl"
             outline="focus:outline-none"
             transition="colors duration-200 ease-in-out"
-            @click="push('/home')"
+            @click="() => {
+              push(route.path)
+              closeDrawer()
+            }"
           >
-            <feather-home w="6" h="6" m="r-2" />
-            Home
-          </button>
-          <button
-            m="t-2"
-            w="full"
-            p="x-4 y-2"
-            bg="hover:neonGreen"
-            text="hover:textDark"
-            font="medium"
-            flex="~"
-            align="items-center"
-            border="rounded-xl"
-            outline="focus:outline-none"
-            transition="colors duration-200 ease-in-out"
-            @click="push('/route1')"
-          >
-            <feather-home w="6" h="6" m="r-2" />
-            Route 1
-          </button>
-          <button
-            m="t-2"
-            w="full"
-            p="x-4 y-2"
-            bg="hover:neonGreen"
-            text="hover:textDark"
-            font="medium"
-            flex="~"
-            align="items-center"
-            border="rounded-xl"
-            outline="focus:outline-none"
-            transition="colors duration-200 ease-in-out"
-            @click="push('/route2')"
-          >
-            <feather-home w="6" h="6" m="r-2" />
-            Route 2
+            <Icon :icon="route.icon" w="6" h="6" m="r-2" />
+            {{ route.name }}
           </button>
         </div>
       </TransitionChild>
