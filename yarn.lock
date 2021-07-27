@@ -6139,6 +6139,11 @@ vscode-vue-languageservice@^0.26.6:
     vscode-pug-languageservice "^0.26.9"
     vscode-typescript-languageservice "^0.26.9"
 
+vue-confetti@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/vue-confetti/-/vue-confetti-2.2.2.tgz#aa79f2cc1550382ede26faaee7ae5f67b110a023"
+  integrity sha512-6VMyfeDVkQ09Bdf2UKdjUIkXF3Jx7WUmoy4lkF9ohuVhw8J0vWf64nhdh8YqTPCxzrVnUKzoyKPyuxonaKtkSg==
+
 vue-demi@*, vue-demi@^0.11.2, vue-demi@latest:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.11.2.tgz#faa06da53887c493a695b997f4fcb4784a667990"

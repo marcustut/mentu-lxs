@@ -2,17 +2,21 @@
 import { Dialog, DialogOverlay } from '@headlessui/vue'
 import { useAuth } from '@vueuse/firebase'
 import { useI18n } from 'vue-i18n'
+import { useTimeout } from '@vueuse/shared'
 import { firebase, signIn } from '~/modules/firebase'
 import ThemeToggle from '~/components/ThemeToggle.vue'
 import LocaleToggle from '~/components/LocaleToggle.vue'
 
 const { isAuthenticated } = useAuth(firebase.auth())
 
+// Timeout to wait for 'isAuthenticated'
+const ready = useTimeout(2000)
+
 const { t } = useI18n()
 </script>
 
 <template>
-  <Dialog :open="!isAuthenticated">
+  <Dialog :open="ready && !isAuthenticated">
     <DialogOverlay pos="fixed inset-0" backdrop="~ blur-[2px]" />
 
     <div
@@ -28,8 +32,12 @@ const { t } = useI18n()
       transform="~ translate-x-[-50%] translate-y-[-50%]"
       transition="duration-200 ease-in-out"
     >
-      <h4 text="2xl" font="bold">{{ t('login.header') }}</h4>
-      <p m="t-2" text="sm center" font="leading-tight">{{ t('login.description') }}</p>
+      <h4 text="2xl" font="bold">
+        {{ t('login.header') }}
+      </h4>
+      <p m="t-2" text="sm center" font="leading-tight">
+        {{ t('login.description') }}
+      </p>
       <button
         display="<sm:relative"
         w="<sm:full"
