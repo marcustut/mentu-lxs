@@ -4,6 +4,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AuthController: typeof import('./src/components/AuthController.vue')['default']
+    BxBxMailSend: typeof import('virtual:vite-icons/bx/bx-mail-send')['default']
     BxBxMenu: typeof import('virtual:vite-icons/bx/bx-menu')['default']
     BxBxsMoon: typeof import('virtual:vite-icons/bx/bxs-moon')['default']
     CarbonCampsite: typeof import('virtual:vite-icons/carbon/campsite')['default']
@@ -11,6 +12,7 @@ declare module 'vue' {
     CarbonLanguage: typeof import('virtual:vite-icons/carbon/language')['default']
     CarbonLogoGithub: typeof import('virtual:vite-icons/carbon/logo-github')['default']
     CarbonMoon: typeof import('virtual:vite-icons/carbon/moon')['default']
+    CarbonSendAltFilled: typeof import('virtual:vite-icons/carbon/send-alt-filled')['default']
     CarbonSun: typeof import('virtual:vite-icons/carbon/sun')['default']
     CarbonWarning: typeof import('virtual:vite-icons/carbon/warning')['default']
     CiMenuDuo: typeof import('virtual:vite-icons/ci/menu-duo')['default']
@@ -24,6 +26,7 @@ declare module 'vue' {
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     PixelarticonsDashbaord: typeof import('virtual:vite-icons/pixelarticons/dashbaord')['default']
     README: typeof import('./src/components/README.md')['default']
+    Spinner: typeof import('./src/components/Spinner.vue')['default']
     ThemeToggle: typeof import('./src/components/ThemeToggle.vue')['default']
     UilEnglishToChinese: typeof import('virtual:vite-icons/uil/english-to-chinese')['default']
   }

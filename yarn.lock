@@ -6193,6 +6193,11 @@ vue-tsc@^0.2.1:
   dependencies:
     vscode-vue-languageservice "^0.26.6"
 
+vue3-danmaku@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/vue3-danmaku/-/vue3-danmaku-0.2.0.tgz#997c5fb454ce1f0e445f433e17d6c91869881eea"
+  integrity sha512-pSoUBzBUdDOe2r8IlG/EL5Th53IYLbsD+9n3Iul9fdkZlbG2Gv2vczY4NaPtVXzk9+Hre3U0IonHicf5NEPOPQ==
+
 vue@^3.0.11, vue@^3.1.4:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.1.5.tgz#12879b11d0685ee4478c8869551799630a52f9fe"

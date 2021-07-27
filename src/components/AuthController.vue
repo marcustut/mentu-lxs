@@ -28,12 +28,8 @@ const { t } = useI18n()
       transform="~ translate-x-[-50%] translate-y-[-50%]"
       transition="duration-200 ease-in-out"
     >
-      <h4 text="2xl" font="bold">
-        {{ t('login.header') }}
-      </h4>
-      <p m="t-2" text="sm center" font="leading-tight">
-        {{ t('login.description') }}
-      </p>
+      <h4 text="2xl" font="bold">{{ t('login.header') }}</h4>
+      <p m="t-2" text="sm center" font="leading-tight">{{ t('login.description') }}</p>
       <button
         display="<sm:relative"
         w="<sm:full"

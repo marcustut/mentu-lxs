@@ -38,28 +38,18 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div
-    flex="~"
-    align="items-center"
-    justify="between"
-    :class="props.class"
-  >
+  <div flex="~" align="items-center" justify="between" :class="props.class">
     <button outline="focus:outline-none" @click="openDrawer">
       <heroicons-outline:menu-alt-2 w="8" h="8" />
     </button>
     <Menu>
       <MenuButton outline="focus:outline-none">
-        <img
-          w="10"
-          h="10"
-          object="cover"
-          border="rounded-full"
-          :src="avatarUrl"
-        />
+        <img w="10" h="10" object="cover" border="rounded-full" :src="avatarUrl" />
       </MenuButton>
 
       <MenuItems
         p="2"
+        z="10"
         bg="gray-50 dark:dark-400"
         pos="absolute top-18 right-4"
         text="gray-700 dark:gray-200"
@@ -103,7 +93,7 @@ const { t } = useI18n()
             @click="toggleLocale"
           >
             <uil-english-to-chinese m="r-2" />
-            <span v-if="locale.value === 'en'">{{ t('menu.change_language_en') }}</span>
+            <span v-if="locale === 'en'">{{ t('menu.change_language_en') }}</span>
             <span v-else>{{ t('menu.change_language_cn') }}</span>
           </button>
         </MenuItem>
@@ -128,10 +118,7 @@ const { t } = useI18n()
     </Menu>
   </div>
 
-  <TransitionRoot
-    :show="drawerOpen"
-    as="template"
-  >
+  <TransitionRoot :show="drawerOpen" as="template">
     <Dialog :open="drawerOpen" as="div" @close="closeDrawer">
       <DialogOverlay pos="fixed inset-0" backdrop="~ blur-[2px] brightness-75" />
 
