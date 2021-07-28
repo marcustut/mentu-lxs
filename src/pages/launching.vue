@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useAuth, useFirestore } from '@vueuse/firebase'
+import { useSound } from '@vueuse/sound'
 // @ts-ignore
 import vueDanmaku from 'vue3-danmaku'
 import { Dialog, DialogOverlay } from '@headlessui/vue'
 import { onStartTyping, useTimeoutFn } from '@vueuse/core'
-// import Confetti from 'vue-confetti/src/confetti.js'
 import { firebase, db } from '~/modules/firebase'
 import Spinner from '~/components/Spinner.vue'
 import Firework from '~/components/Firework.vue'
 
 const { user } = useAuth(firebase.auth())
-
-// const confetti = new Confetti()
+const { play: playSFX } = useSound('https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/FireworkSFX.mp3?alt=media&token=b944b420-7cf4-4ef9-99ed-22e8c293192b', { volume: 0.2 })
 
 const messageText = ref('')
 const reacted = ref(false)
@@ -27,10 +26,6 @@ const launching = useFirestore<{ count: number; participants: number}>(launching
 // @ts-ignore
 const messages = useFirestore<{content: string; sentBy: {name: string; avatar_url: string}; createdAt: firebase.firestore.Timestamp}[]>(messagesRef)
 
-// const stopConffeti = useTimeoutFn(() => {
-//   confetti.stop()
-// }, 5000)
-
 // Watcher for both ref, only start confetti if the bar first reach 100%
 watch(launching, () => {
   if (!launching.value) return
@@ -42,12 +37,8 @@ watch(launching, () => {
     return
   }
 
-  // confetti.start({
-  //   particles: [{ type: 'rect' }, { type: 'circle' }],
-  //   defaultDropRate: 5,
-  // })
-  // stopConffeti.start()
   startFirework.value = true
+  playSFX()
 })
 
 // Sort messages by latest date

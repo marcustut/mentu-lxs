@@ -1,8 +1,10 @@
 <script setup lang="ts">
-const fireworksJSON = {
+import { isDark } from '~/logic/dark'
+
+const fireworksJSON = ref({
   detectRetina: true,
   background: {
-    color: '#000',
+    color: isDark.value ? '#171717' : '#fff',
   },
   fpsLimit: 60,
   emitters: {
@@ -114,7 +116,7 @@ const fireworksJSON = {
     },
     stroke: {
       color: {
-        value: '#ffffff',
+        value: isDark.value ? '#ffffff' : '#171717',
       },
       width: 1,
     },
@@ -136,12 +138,12 @@ const fireworksJSON = {
       },
       trail: {
         fillColor: '#000',
-        enable: true,
+        enable: false,
         length: 10,
       },
     },
   },
-}
+})
 </script>
 
 <template>
