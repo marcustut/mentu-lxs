@@ -10,7 +10,7 @@ import LocaleToggle from '~/components/LocaleToggle.vue'
 const { isAuthenticated } = useAuth(firebase.auth())
 
 // Timeout to wait for 'isAuthenticated'
-const ready = useTimeout(2000)
+const ready = useTimeout(500)
 
 const { t } = useI18n()
 </script>
