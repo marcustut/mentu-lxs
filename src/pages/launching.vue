@@ -4,20 +4,19 @@ import { useAuth, useFirestore } from '@vueuse/firebase'
 import vueDanmaku from 'vue3-danmaku'
 import { Dialog, DialogOverlay } from '@headlessui/vue'
 import { onStartTyping, useTimeoutFn } from '@vueuse/core'
-// @ts-ignore
-import Confetti from 'vue-confetti/src/confetti.js'
+// import Confetti from 'vue-confetti/src/confetti.js'
 import { firebase, db } from '~/modules/firebase'
 import Spinner from '~/components/Spinner.vue'
-import { useLaunching } from '~/stores'
+import Firework from '~/components/Firework.vue'
 
 const { user } = useAuth(firebase.auth())
 
-const confetti = new Confetti()
+// const confetti = new Confetti()
 
 const messageText = ref('')
 const reacted = ref(false)
 const dialogOpen = ref(false)
-const launchingState = useLaunching()
+const startFirework = ref(false)
 const inputRef = ref<HTMLInputElement | null>(null)
 
 const launchingRef = db.collection('interaction').doc('launching')
@@ -26,27 +25,33 @@ const messagesRef = db.collection('interaction').doc('launching').collection('me
 // @ts-ignore
 const launching = useFirestore<{ count: number; participants: number}>(launchingRef)
 // @ts-ignore
-const messages = useFirestore<{content: string; sentBy: {name: string; avatar_url: string}}>(messagesRef)
+const messages = useFirestore<{content: string; sentBy: {name: string; avatar_url: string}; createdAt: firebase.firestore.Timestamp}[]>(messagesRef)
 
-const stopConffeti = useTimeoutFn(() => {
-  confetti.stop()
-}, 5000)
+// const stopConffeti = useTimeoutFn(() => {
+//   confetti.stop()
+// }, 5000)
 
 // Watcher for both ref, only start confetti if the bar first reach 100%
-watch([launching, launchingState], () => {
+watch(launching, () => {
   if (!launching.value) return
 
   const percentage = (launching.value.count / launching.value.participants * 100)
 
-  if (percentage < 100 || launchingState.value.launched) return
+  if (percentage < 100) {
+    startFirework.value = false
+    return
+  }
 
-  launchingState.value.launched = true
-  confetti.start({
-    particles: [{ type: 'rect' }, { type: 'circle' }],
-    defaultDropRate: 5,
-  })
-  stopConffeti.start()
+  // confetti.start({
+  //   particles: [{ type: 'rect' }, { type: 'circle' }],
+  //   defaultDropRate: 5,
+  // })
+  // stopConffeti.start()
+  startFirework.value = true
 })
+
+// Sort messages by latest date
+watch(messages, () => messages.value?.sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime()))
 
 const focusInput = useTimeoutFn(() => {
   inputRef.value?.focus()
@@ -80,6 +85,7 @@ const sendMessage = () => {
     messagesRef.add({
       content: messageText.value,
       sentBy: { name: user.value?.displayName, avatar_url: user.value?.photoURL },
+      createdAt: new Date(),
     })
     messageText.value = ''
   }
@@ -87,6 +93,8 @@ const sendMessage = () => {
 </script>
 
 <template>
+  <Firework v-if="startFirework" />
+
   <div
     h="[91vh]"
     flex="~ col"
@@ -142,7 +150,7 @@ const sendMessage = () => {
       </button>
 
       <div v-if="messages" pos="absolute top-0">
-        <vue-danmaku :danmus="messages" use-slot w="screen" h="[250px]">
+        <vue-danmaku :danmus="messages" use-slot w="screen" h="[250px]" :speeds="100">
           <template #dm="{ danmu }">
             <div flex="~" align="items-center">
               <img
@@ -153,7 +161,7 @@ const sendMessage = () => {
                 :src="danmu.sentBy.avatar_url"
                 :alt="danmu.sentBy.name"
               />
-              <span text="gray-700 dark:gray-200 sm">{{ danmu.content }}</span>
+              <span text="gray-700 dark:gray-200 sm">{{ danmu.sentBy.name }}: {{ danmu.content }}</span>
             </div>
           </template>
         </vue-danmaku>
