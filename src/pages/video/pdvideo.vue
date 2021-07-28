@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import ComingSoon from '~/components/ComingSoon.vue'
+// import ComingSoon from '~/components/ComingSoon.vue'
 </script>
 
 <template>
-  <!-- <div class="flex h-screen justify-center items-center">
-    <video width="540" height="960" controls>
-      <source
-        src="https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/PDFootage1.mp4?alt=media"
-        type="video/mp4"
-      />
-    </video>
-  </div> -->
-  <ComingSoon />
+  <div class="flex h-screen justify-center items-center">
+    <iframe
+      width="1028"
+      height="673"
+      src="https://www.youtube.com/embed/dxbzFSIoqCw"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <!-- <ComingSoon />
   <div
     p="t-32"
     text="xl center neonGreen"
@@ -23,5 +26,5 @@ import ComingSoon from '~/components/ComingSoon.vue'
     overflow="y-hidden"
   >
     Coming Soon
-  </div>
+  </div> -->
 </template>
