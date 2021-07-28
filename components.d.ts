@@ -8,6 +8,7 @@ declare module 'vue' {
     CarbonDicomOverlay: typeof import('virtual:vite-icons/carbon/dicom-overlay')['default']
     CarbonPedestrian: typeof import('virtual:vite-icons/carbon/pedestrian')['default']
     CarbonWarning: typeof import('virtual:vite-icons/carbon/warning')['default']
+    ComingSoon: typeof import('./src/components/ComingSoon.vue')['default']
     'FaSolid:sun': typeof import('virtual:vite-icons/fa-solid/sun')['default']
     Firework: typeof import('./src/components/Firework.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
