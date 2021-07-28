@@ -4,10 +4,10 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AuthController: typeof import('./src/components/AuthController.vue')['default']
-    BxBxMailSend: typeof import('virtual:vite-icons/bx/bx-mail-send')['default']
     BxBxsMoon: typeof import('virtual:vite-icons/bx/bxs-moon')['default']
     CarbonDicomOverlay: typeof import('virtual:vite-icons/carbon/dicom-overlay')['default']
-    Confetti: typeof import('./src/components/Confetti.vue')['default']
+    CarbonPedestrian: typeof import('virtual:vite-icons/carbon/pedestrian')['default']
+    CarbonWarning: typeof import('virtual:vite-icons/carbon/warning')['default']
     'FaSolid:sun': typeof import('virtual:vite-icons/fa-solid/sun')['default']
     Firework: typeof import('./src/components/Firework.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
