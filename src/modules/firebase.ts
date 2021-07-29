@@ -13,7 +13,15 @@ const config = {
 
 firebase.initializeApp(config)
 
-export const signIn = () => firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
+export const signIn = async(): Promise<{ user: firebase.auth.UserCredential | null; error: Error | null }> => {
+  try {
+    const user = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    return { user, error: null }
+  }
+  catch (error) {
+    return { user: null, error }
+  }
+}
 export const signOut = () => firebase.auth().signOut()
 
 export const db = firebase.firestore()

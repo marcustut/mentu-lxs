@@ -12,6 +12,13 @@ const { isAuthenticated } = useAuth(firebase.auth())
 // Timeout to wait for 'isAuthenticated'
 const ready = useTimeout(500)
 
+const loginHandler = async(e: Event) => {
+  e.preventDefault()
+  const { error } = await signIn()
+  // eslint-disable-next-line no-alert
+  if (error) alert(error.message)
+}
+
 const { t } = useI18n()
 </script>
 
@@ -49,7 +56,8 @@ const { t } = useI18n()
         text="gray-700 dark:gray-50"
         border="rounded-full"
         shadow="md"
-        @click="signIn"
+        outline="focus:none"
+        @click="loginHandler"
       >
         <grommet-icons:google display="<sm:absolute" w="6" h="6" />
         <span w="<sm:full" m="l-2" font="medium">{{ t('login.google_login') }}</span>
