@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useAuth, useFirestore } from '@vueuse/firebase'
-import { useIntervalFn } from '@vueuse/shared'
-import { Icon } from '@iconify/vue'
-import { useI18n } from 'vue-i18n'
-import type { Ref } from 'vue'
-import { db, firebase } from '~/modules/firebase'
-import Spinner from '~/components/Spinner.vue'
-import type { Notification, Event } from '~/types'
+import { useAuth, useFirestore } from '@vueuse/firebase';
+import { useIntervalFn } from '@vueuse/shared';
+import { Icon } from '@iconify/vue';
+import { useI18n } from 'vue-i18n';
+import type { Ref } from 'vue';
+import { db, firebase } from '~/modules/firebase';
+import Spinner from '~/components/Spinner.vue';
+import type { Notification, Event } from '~/types';
 
-const greetings = ['Hello', 'Hi', 'Yo', 'Hey', 'Hola', 'こんにちは', 'Bonjour', 'Salut', '你好']
-const weekdays = {
+const greetings = ['Hello', 'Hi', 'Yo', 'Hey', 'Hola', 'こんにちは', 'Bonjour', 'Salut', '你好'];
+const weekdays: Record<number, string> = {
   0: 'Sunday',
   1: 'Monday',
   2: 'Tuesday',
@@ -17,8 +17,8 @@ const weekdays = {
   4: 'Thursday',
   5: 'Friday',
   6: 'Saturday',
-} as Record<number, string>
-const weekdays_CN = {
+};
+const weekdays_CN: Record<number, string> = {
   0: '星期日',
   1: '星期一',
   2: '星期二',
@@ -26,37 +26,39 @@ const weekdays_CN = {
   4: '星期四',
   5: '星期五',
   6: '星期六',
-} as Record<number, string>
+};
 
-const notificationsRef = db.collection('notifications')
-const eventsRef = db.collection('events')
+const notificationsRef = db.collection('notifications');
+const eventsRef = db.collection('events');
 
 // @ts-ignore
-const notifications = useFirestore<Notification[]>(notificationsRef)
+const notifications = useFirestore<Notification[]>(notificationsRef);
 // @ts-ignore
-const events = useFirestore<Event[]>(eventsRef)
-const { user } = useAuth(firebase.auth())
-const { locale } = useI18n() as unknown as { locale: Ref<string> }
-const { t } = useI18n()
+const events = useFirestore<Event[]>(eventsRef);
 
-const word = ref('Hello')
-const event = ref<Event | null>(null)
+const { user } = useAuth(firebase.auth());
+const { locale } = useI18n() as unknown as { locale: Ref<string> };
+const { t } = useI18n();
+
+const word = ref('Hello');
+const event = ref<Event | null>(null);
 
 watch(events, () => {
-  if (!events.value) return
+  if (!events.value) return;
 
-  event.value = events.value.sort((a, b) =>
-    a.updatedAt.toDate().getTime() - b.updatedAt.toDate().getTime())[0]
-})
+  event.value = events.value.sort(
+    (a, b) => a.updatedAt.toDate().getTime() - b.updatedAt.toDate().getTime()
+  )[0];
+});
 
 const { pause, resume, isActive } = useIntervalFn(() => {
-  word.value = greetings[Math.round(Math.random() * (greetings.length - 1))]
-}, 500)
+  word.value = greetings[Math.round(Math.random() * (greetings.length - 1))];
+}, 500);
 
 const greetingHandler = () => {
-  if (isActive.value) pause()
-  else resume()
-}
+  if (isActive.value) pause();
+  else resume();
+};
 </script>
 
 <template>
@@ -73,9 +75,7 @@ const greetingHandler = () => {
 
   <div v-if="user">
     <div text="space-pre-wrap 3xl gray-700" font="bold" @click="greetingHandler">
-      <h2 text="xl">
-        {{ word }},
-      </h2>
+      <h2 text="xl">{{ word }},</h2>
       <h1>
         {{ `${user?.displayName}` }}
       </h1>
@@ -146,7 +146,13 @@ const greetingHandler = () => {
               {{ locale === 'en' ? event.title.en : event.title['zh-CN'] }}
             </p>
             <p text="sm">
-              {{ `${event.updatedAt.toDate().toLocaleDateString()} (${locale === 'en' ? weekdays[event.updatedAt.toDate().getDay()] : weekdays_CN[event.updatedAt.toDate().getDay()]})` }}
+              {{
+                `${event.updatedAt.toDate().toLocaleDateString()} (${
+                  locale === 'en'
+                    ? weekdays[event.updatedAt.toDate().getDay()]
+                    : weekdays_CN[event.updatedAt.toDate().getDay()]
+                })`
+              }}
             </p>
             <p text="sm" font="medium">
               {{ event.updatedAt.toDate().toLocaleTimeString() }}
@@ -165,14 +171,7 @@ const greetingHandler = () => {
       </div>
     </div>
 
-    <Spinner
-      v-else
-      animate="spin"
-      m="t-8 x-auto"
-      w="12"
-      h="12"
-      text="neonGreen"
-    />
+    <Spinner v-else animate="spin" m="t-8 x-auto" w="12" h="12" text="neonGreen" />
 
     <div v-if="notifications" m="t-8">
       <h3 text="xl" font="medium">
@@ -206,14 +205,7 @@ const greetingHandler = () => {
       </a>
     </div>
 
-    <Spinner
-      v-else
-      animate="spin"
-      m="t-8 x-auto"
-      w="12"
-      h="12"
-      text="neonGreen"
-    />
+    <Spinner v-else animate="spin" m="t-8 x-auto" w="12" h="12" text="neonGreen" />
   </div>
 
   <div
