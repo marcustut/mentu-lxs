@@ -5,19 +5,34 @@ button:
   home: Home
   toggle_dark: Toggle dark mode
   toggle_langs: Change languages
-intro:
-  desc: Opinionated Vite Starter Template
-  dynamic-route: Demo of dynamic route
-  hi: Hi, {name}!
-  whats-your-name: What's your name?
 not-found: Not found
 login:
   header: Discple Trainee
   description: In order to continue to the student portal, please first login
   google_login: Sign In with Google
+navbar:
+  home: Home
+  launching: Launching
+  linktree: Linktree
 menu:
   toggle_theme_dark: Dark Mode
   toggle_theme_light: Light Mode
   change_language_cn: Chinese
   change_language_en: English
   sign_out: Sign Out
+home:
+  schedule: Upcoming Schedule
+  notification: Notification
+  identification:
+    trainee: Trainee
+    id_number_label: Identification no.
+    programme_label: Programme
+    programme: Disciple Trainee
+    organized_by_label: Organized by
+    organized_by: FGA CYC PK Region
+launching:
+  input_placeholder: Enter your messsage here! 🥺
+  button: Send
+  dialog:
+    title: You vote has been successfully registered!
+    button: Send a message!

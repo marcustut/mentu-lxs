@@ -5,26 +5,27 @@ import { useSound } from '@vueuse/sound'
 import vueDanmaku from 'vue3-danmaku'
 import { Dialog, DialogOverlay } from '@headlessui/vue'
 import { onStartTyping, useTimeoutFn } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { firebase, db } from '~/modules/firebase'
 import Spinner from '~/components/Spinner.vue'
 import Firework from '~/components/Firework.vue'
 
+const launchingRef = db.collection('interaction').doc('launching')
+const messagesRef = db.collection('interaction').doc('launching').collection('messages')
+
 const { user } = useAuth(firebase.auth())
 const { play: playSFX } = useSound('https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/FireworkSFX.mp3?alt=media&token=b944b420-7cf4-4ef9-99ed-22e8c293192b', { volume: 0.2 })
+const { t } = useI18n()
+// @ts-ignore
+const launching = useFirestore<{ count: number; participants: number}>(launchingRef)
+// @ts-ignore
+const messages = useFirestore<{content: string; sentBy: {name: string; avatar_url: string}; createdAt: firebase.firestore.Timestamp}[]>(messagesRef)
 
 const messageText = ref('')
 const reacted = ref(false)
 const dialogOpen = ref(false)
 const startFirework = ref(false)
 const inputRef = ref<HTMLInputElement | null>(null)
-
-const launchingRef = db.collection('interaction').doc('launching')
-const messagesRef = db.collection('interaction').doc('launching').collection('messages')
-
-// @ts-ignore
-const launching = useFirestore<{ count: number; participants: number}>(launchingRef)
-// @ts-ignore
-const messages = useFirestore<{content: string; sentBy: {name: string; avatar_url: string}; createdAt: firebase.firestore.Timestamp}[]>(messagesRef)
 
 // Watcher for both ref, only start confetti if the bar first reach 100%
 watch(launching, () => {
@@ -112,7 +113,7 @@ const sendMessage = () => {
       <input
         ref="inputRef"
         v-model="messageText"
-        placeholder="Enter your messsage here! 🥺"
+        :placeholder="t('launching.input_placeholder')"
         autofocus
         m="y-4"
         w="2/3 sm:1/3"
@@ -136,7 +137,7 @@ const sendMessage = () => {
         shadow="lg"
         @click="sendMessage"
       >
-        Send
+        {{ t('launching.button') }}
         <twemoji-outbox-tray w="4" h="4" m="l-1" />
       </button>
 
@@ -195,7 +196,7 @@ const sendMessage = () => {
     >
       <div flex="~" align="items-center">
         <h4 text="lg center" font="bold" m="r-2">
-          Your vote has been successfully registered!
+          {{ t('launching.dialog.title') }}
         </h4>
         <twemoji-zany-face />
       </div>
@@ -209,7 +210,7 @@ const sendMessage = () => {
         outline="focus:none"
         @click="closeDialog"
       >
-        Send a message!
+        {{ t('launching.dialog.button') }}
       </button>
     </div>
   </Dialog>

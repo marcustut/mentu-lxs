@@ -4,6 +4,7 @@ import { useAuth } from '@vueuse/firebase'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
+import type { Ref } from 'vue'
 import { firebase, signOut } from '~/modules/firebase'
 import { isDark, toggleDark } from '~/logic'
 
@@ -14,9 +15,8 @@ const props = defineProps({
 const drawerOpen = ref(false)
 const { user } = useAuth(firebase.auth)
 const { push } = useRouter()
-const { locale } = useI18n()
-
-const avatarUrl = user.value && user.value?.photoURL ? user.value.photoURL : `https://ui-avatars.com/api/?name=${user.value?.displayName?.replace(' ', '+')}`
+const { locale } = useI18n() as unknown as { locale: Ref<string> }
+const { t } = useI18n()
 
 const closeDrawer = () => drawerOpen.value = false
 const openDrawer = () => drawerOpen.value = true
@@ -29,12 +29,10 @@ const toggleLocale = () => {
 }
 
 const routes = [
-  { name: 'Home', icon: 'flat-color-icons:home', path: '/' },
-  { name: 'Launching', icon: 'emojione-confetti-ball', path: '/launching' },
-  { name: 'Linktree', icon: 'emojione-v1:evergreen-tree', path: '/linktree' },
+  { name: 'navbar.home', icon: 'flat-color-icons:home', path: '/' },
+  { name: 'navbar.launching', icon: 'emojione-confetti-ball', path: '/launching' },
+  { name: 'navbar.linktree', icon: 'emojione-v1:evergreen-tree', path: '/linktree' },
 ]
-
-const { t } = useI18n()
 </script>
 
 <template>
@@ -44,7 +42,22 @@ const { t } = useI18n()
     </button>
     <Menu>
       <MenuButton outline="focus:outline-none">
-        <img w="10" h="10" object="cover" border="rounded-full" :src="avatarUrl" />
+        <img
+          v-if="user && user.photoURL"
+          w="10"
+          h="10"
+          object="cover"
+          border="rounded-full"
+          :src="user.photoURL"
+        />
+        <img
+          v-else
+          w="10"
+          h="10"
+          object="cover"
+          border="rounded-full"
+          :src="`https://ui-avatars.com/api/?name=${user?.displayName?.replace(' ', '+')}`"
+        />
       </MenuButton>
 
       <MenuItems
@@ -159,7 +172,7 @@ const { t } = useI18n()
             }"
           >
             <Icon :icon="route.icon" w="6" h="6" m="r-2" />
-            {{ route.name }}
+            {{ t(route.name) }}
           </button>
         </div>
       </TransitionChild>

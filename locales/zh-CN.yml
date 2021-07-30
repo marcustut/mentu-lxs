@@ -5,19 +5,34 @@ button:
   home: 首页
   toggle_dark: 切换深色模式
   toggle_langs: 切换语言
-intro:
-  desc: 固执己见的 Vite 项目模板
-  dynamic-route: 动态路由演示
-  hi: 你好，{name}
-  whats-your-name: 输入你的名字
 not-found: 未找到页面
 login:
   header: 门徒练习生
   description: 在还未进入您的 学员区 前请先登入
   google_login: 谷歌登入
+navbar:
+  home: 主页
+  launching: 开幕仪式
+  linktree: 链接树
 menu:
   toggle_theme_dark: 暗黑模式
   toggle_theme_light: 优亮模式
   change_language_cn: 中文
   change_language_en: 英文
   sign_out: 登出
+home:
+  schedule: 下个活动
+  notification: 通知
+  identification:
+    trainee: 学员
+    id_number_label: 学员编号
+    programme_label: 活动主题
+    programme: 门徒练习生
+    organized_by_label: 主办单位
+    organized_by: FGA CYC PK Region
+launching:
+  input_placeholder: 在这输入弹幕 🥺
+  button: 发送
+  dialog:
+    title: 已收到您的投票！
+    button: 发送弹幕！
