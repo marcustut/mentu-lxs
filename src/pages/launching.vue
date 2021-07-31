@@ -1,76 +1,106 @@
 <script setup lang="ts">
-import { useAuth, useFirestore } from '@vueuse/firebase'
-import { useSound } from '@vueuse/sound'
+import { useAuth, useFirestore } from '@vueuse/firebase';
+import { useSound } from '@vueuse/sound';
 // @ts-ignore
-import vueDanmaku from 'vue3-danmaku'
-import { Dialog, DialogOverlay } from '@headlessui/vue'
-import { onStartTyping, useTimeoutFn } from '@vueuse/core'
-import { useI18n } from 'vue-i18n'
-import { firebase, db } from '~/modules/firebase'
-import Spinner from '~/components/Spinner.vue'
-import Firework from '~/components/Firework.vue'
+import vueDanmaku from 'vue3-danmaku';
+import { Dialog, DialogOverlay } from '@headlessui/vue';
+import { onStartTyping, useTimeoutFn, useNow } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
+import { firebase, db } from '~/modules/firebase';
+import { useLaunching } from '~/stores';
+import Spinner from '~/components/Spinner.vue';
+import Firework from '~/components/Firework.vue';
+import type { Message, Launching } from '~/types';
 
-const launchingRef = db.collection('interaction').doc('launching')
-const messagesRef = db.collection('interaction').doc('launching').collection('messages')
+const launchingRef = db.collection('interaction').doc('launching');
+const messagesRef = db.collection('interaction').doc('launching').collection('messages');
 
-const { user } = useAuth(firebase.auth())
-const { play: playSFX } = useSound('https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/FireworkSFX.mp3?alt=media&token=b944b420-7cf4-4ef9-99ed-22e8c293192b', { volume: 0.2 })
-const { t } = useI18n()
+const { user } = useAuth(firebase.auth());
+const { play: playSFX } = useSound(
+  'https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/FireworkSFX.mp3?alt=media&token=b944b420-7cf4-4ef9-99ed-22e8c293192b',
+  { volume: 0.2 }
+);
+const now = useNow();
+const { t } = useI18n();
 // @ts-ignore
-const launching = useFirestore<{ count: number; participants: number}>(launchingRef)
+const launching = useFirestore<Launching>(launchingRef);
 // @ts-ignore
-const messages = useFirestore<{content: string; sentBy: {name: string; avatar_url: string}; createdAt: firebase.firestore.Timestamp}[]>(messagesRef)
+const messages = useFirestore<Message[]>(messagesRef);
 
-const messageText = ref('')
-const reacted = ref(false)
-const dialogOpen = ref(false)
-const startFirework = ref(false)
-const inputRef = ref<HTMLInputElement | null>(null)
+const messageText = ref('');
+const launched = useLaunching();
+const dialogOpen = ref(false);
+const startFirework = ref(false);
+const inputRef = ref<HTMLInputElement | null>(null);
+const countdownStr = ref('');
 
-// Watcher for both ref, only start confetti if the bar first reach 100%
+// Watcher only start confetti if the bar first reach 100%
 watch(launching, () => {
-  if (!launching.value) return
+  if (!launching.value) return;
 
-  const percentage = (launching.value.count / launching.value.participants * 100)
+  const percentage = (launching.value.count / launching.value.participants) * 100;
 
   if (percentage < 100) {
-    startFirework.value = false
-    return
+    startFirework.value = false;
+    return;
   }
 
-  startFirework.value = true
-  playSFX()
-})
+  startFirework.value = true;
+  playSFX();
+});
+
+// Update countdown duration
+watch([launching, now], () => {
+  if (!launching.value) return;
+
+  const diff = launching.value.start_datetime.toDate().getTime() - now.value.getTime();
+
+  const totalNanoseconds = ((3e5 - diff) / 1000) >> 0;
+  const totalMinutes = (totalNanoseconds / 60) >> 0;
+  const hours = (totalMinutes / 60) >> 0;
+  const minutes = ((totalMinutes / 60 - hours) * 60) >> 0;
+  const seconds = totalNanoseconds - totalMinutes * 60;
+
+  countdownStr.value = `${Math.abs(hours).toString().padStart(2, '0')}:${Math.abs(minutes)
+    .toString()
+    .padStart(2, '0')}:${Math.abs(seconds).toString().padStart(2, '0')}`;
+});
 
 // Sort messages by latest date
-watch(messages, () => messages.value?.sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime()))
+watch(messages, () =>
+  messages.value?.sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime())
+);
 
 const focusInput = useTimeoutFn(() => {
-  inputRef.value?.focus()
-}, 0)
+  inputRef.value?.focus();
+}, 0);
 
 onStartTyping(() => {
   // @ts-ignore
-  if (!inputRef.value?.active) focusInput.start()
-})
+  if (!inputRef.value?.active) focusInput.start();
+});
 
-const openDialog = () => dialogOpen.value = true
+const openDialog = () => (dialogOpen.value = true);
 const closeDialog = () => {
-  dialogOpen.value = false
-  focusInput.start()
-}
+  dialogOpen.value = false;
+  focusInput.start();
+};
 
 const addCount = () => {
-  if (reacted.value) {
-    openDialog()
-    return
+  if (launched.value.voted) {
+    openDialog();
+    return;
   }
 
-  reacted.value = true
-  launchingRef.update({
-    count: firebase.firestore.FieldValue.increment(1),
-  }).then(() => openDialog())
-}
+  launchingRef
+    .update({
+      count: firebase.firestore.FieldValue.increment(1),
+    })
+    .then(() => {
+      openDialog();
+      launched.value.voted = true;
+    });
+};
 
 const sendMessage = () => {
   if (messageText.value !== '') {
@@ -78,36 +108,56 @@ const sendMessage = () => {
       content: messageText.value,
       sentBy: { name: user.value?.displayName, avatar_url: user.value?.photoURL },
       createdAt: new Date(),
-    })
-    messageText.value = ''
+    });
+    messageText.value = '';
   }
-}
+};
 </script>
 
 <template>
   <Firework v-if="startFirework" />
 
-  <div
-    h="[91vh]"
-    flex="~ col"
-    justify="center"
-    align="items-center"
-    pos="relative"
-  >
-    <template v-if="launching">
-      <div h="2" w="72" pos="relative">
+  <template v-if="launching">
+    <div
+      v-if="launching.start_datetime.toDate() < new Date()"
+      h="[91vh]"
+      flex="~ col"
+      justify="center"
+      align="items-center"
+      pos="relative"
+    >
+      <div v-if="launched.voted" w="full" p="t-[56.25%]" pos="relative" overflow="hidden">
+        <iframe
+          src="https://www.youtube.com/embed/tQ0yjYUFKAE"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          w="full"
+          h="full"
+          pos="absolute inset-0"
+        ></iframe>
+      </div>
+
+      <div h="2" w="72" :m="launched.voted ? 't-6' : ''" pos="relative">
         <div
           h="full"
           bg="neonGreen"
           border="rounded"
           pos="absolute"
-          :style="{ width: `${(launching.count / launching.participants * 100) >= 100 ? '100' : (launching.count / launching.participants * 100).toFixed(0)}%` }"
+          :style="{
+            width: `${
+              (launching.count / launching.participants) * 100 >= 100
+                ? '100'
+                : ((launching.count / launching.participants) * 100).toFixed(0)
+            }%`,
+          }"
         ></div>
         <div h="full" w="full" bg="neonGreenShade" border="rounded"></div>
       </div>
 
       <p m="t-4" text="4xl" font="mono">
-        {{ (launching.count / launching.participants * 100).toFixed(0) }}%
+        {{ ((launching.count / launching.participants) * 100).toFixed(0) }}%
       </p>
 
       <input
@@ -144,7 +194,13 @@ const sendMessage = () => {
       <div v-if="messages" pos="absolute top-0">
         <vue-danmaku :danmus="messages" use-slot w="screen" h="[250px]" :speeds="100">
           <template #dm="{ danmu }">
-            <div flex="~" align="items-center">
+            <div
+              p="x-3 y-2"
+              bg="gray-100 dark:true-gray-700"
+              border="rounded-full"
+              flex="~"
+              align="items-center"
+            >
               <img
                 border="rounded-full"
                 w="6"
@@ -153,13 +209,25 @@ const sendMessage = () => {
                 :src="danmu.sentBy.avatar_url"
                 :alt="danmu.sentBy.name"
               />
-              <span text="gray-700 dark:gray-200 sm">{{ danmu.sentBy.name }}: {{ danmu.content }}</span>
+              <span text="gray-700 dark:gray-200 sm"
+                >{{ danmu.sentBy.name }}: {{ danmu.content }}</span
+              >
             </div>
           </template>
         </vue-danmaku>
       </div>
-    </template>
-    <Spinner v-else animate="spin" w="12" h="12" text="neonGreen" />
+    </div>
+
+    <div v-else h="[85vh]" flex="~ col" justify="center" align="items-center">
+      <div text="sm" flex="~" align="items-center">
+        <noto-stopwatch w="4" h="4" m="r-1" />Launching will be available in
+      </div>
+      <p font="mono bold" text="3xl">{{ countdownStr }}</p>
+    </div>
+  </template>
+
+  <div v-else h="[91vh]" flex="~ col" justify="center" align="items-center">
+    <Spinner animate="spin" w="12" h="12" text="neonGreen" />
   </div>
 
   <button
@@ -176,7 +244,7 @@ const sendMessage = () => {
     <twemoji-party-popper />
   </button>
 
-  <Dialog :open="reacted && dialogOpen" @close="closeDialog">
+  <Dialog :open="launched.voted && dialogOpen" @close="closeDialog">
     <DialogOverlay z="10" pos="fixed inset-0" backdrop="~ blur-[2px]" />
 
     <div

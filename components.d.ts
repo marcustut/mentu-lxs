@@ -3,14 +3,9 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    'AkarIcons:arrowUpRight': typeof import('virtual:vite-icons/akar-icons/arrow-up-right')['default']
     AuthController: typeof import('./src/components/AuthController.vue')['default']
     BiArrowUpRightCircle: typeof import('virtual:vite-icons/bi/arrow-up-right-circle')['default']
-    BiArrowUpRightCircleFill: typeof import('virtual:vite-icons/bi/arrow-up-right-circle-fill')['default']
     BxBxsMoon: typeof import('virtual:vite-icons/bx/bxs-moon')['default']
-    CarbonDicomOverlay: typeof import('virtual:vite-icons/carbon/dicom-overlay')['default']
-    CarbonPedestrian: typeof import('virtual:vite-icons/carbon/pedestrian')['default']
-    CarbonWarning: typeof import('virtual:vite-icons/carbon/warning')['default']
     ComingSoon: typeof import('./src/components/ComingSoon.vue')['default']
     'FaSolid:sun': typeof import('virtual:vite-icons/fa-solid/sun')['default']
     Firework: typeof import('./src/components/Firework.vue')['default']
@@ -20,16 +15,17 @@ declare module 'vue' {
     'HeroiconsOutline:menuAlt2': typeof import('virtual:vite-icons/heroicons-outline/menu-alt2')['default']
     LocaleToggle: typeof import('./src/components/LocaleToggle.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
-    NotoLightBulb: typeof import('virtual:vite-icons/noto/light-bulb')['default']
+    NotoStopwatch: typeof import('virtual:vite-icons/noto/stopwatch')['default']
     README: typeof import('./src/components/README.md')['default']
     Spinner: typeof import('./src/components/Spinner.vue')['default']
     ThemeToggle: typeof import('./src/components/ThemeToggle.vue')['default']
+    TwemojiGrimacingFace: typeof import('virtual:vite-icons/twemoji/grimacing-face')['default']
     TwemojiLightBulb: typeof import('virtual:vite-icons/twemoji/light-bulb')['default']
     TwemojiOutboxTray: typeof import('virtual:vite-icons/twemoji/outbox-tray')['default']
     TwemojiPartyPopper: typeof import('virtual:vite-icons/twemoji/party-popper')['default']
-    TwemojiTearOffCalendar: typeof import('virtual:vite-icons/twemoji/tear-off-calendar')['default']
     TwemojiZanyFace: typeof import('virtual:vite-icons/twemoji/zany-face')['default']
     UilEnglishToChinese: typeof import('virtual:vite-icons/uil/english-to-chinese')['default']
+    UserDetails: typeof import('./src/components/UserDetails.vue')['default']
   }
 }
 
