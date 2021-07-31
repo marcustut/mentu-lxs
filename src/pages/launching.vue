@@ -128,7 +128,7 @@ const sendMessage = () => {
     >
       <div v-if="launched.voted" w="full" p="t-[56.25%]" pos="relative" overflow="hidden">
         <iframe
-          src="https://www.youtube.com/embed/tQ0yjYUFKAE"
+          src="https://www.youtube.com/embed/oJAxa_ODcSc"
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
