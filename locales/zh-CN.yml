@@ -10,9 +10,28 @@ login:
   header: 门徒练习生
   description: 在还未进入您的 学员区 前请先登入
   google_login: 谷歌登入
+user_details:
+  header: 更新资料
+  description: 您的用户资料还未被更新
+  submit: 呈交
+  form:
+    name: 英文姓名
+    name_cn: 中文姓名
+    phone_number: 联络号码
+    age: 岁数
+    roles: 身份
+    trainee_id: 学员编号
+    error:
+      name: 英文姓名是必填项
+      name_cn: 中文姓名是必填项
+      phone_number: 联络号码是必填项
+      age: 岁数是必填项
+      roles: 必须选择至少一个身份
+      trainee_id: 学员编号是必填项
 navbar:
   home: 主页
   launching: 开幕仪式
+  video: 视频
   linktree: 链接树
 menu:
   toggle_theme_dark: 暗黑模式

@@ -1,38 +1,46 @@
 <script setup lang="ts">
-import { Dialog, DialogOverlay, Menu, MenuButton, MenuItems, MenuItem, TransitionRoot, TransitionChild } from '@headlessui/vue'
-import { useAuth } from '@vueuse/firebase'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { Icon } from '@iconify/vue'
-import type { Ref } from 'vue'
-import { firebase, signOut } from '~/modules/firebase'
-import { isDark, toggleDark } from '~/logic'
+import {
+  Dialog,
+  DialogOverlay,
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  TransitionRoot,
+  TransitionChild,
+} from '@headlessui/vue';
+import { useAuth } from '@vueuse/firebase';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { Icon } from '@iconify/vue';
+import type { Ref } from 'vue';
+import { firebase, signOut } from '~/modules/firebase';
+import { isDark, toggleDark } from '~/logic';
 
 const props = defineProps({
   class: String,
-})
+});
 
-const drawerOpen = ref(false)
-const { user } = useAuth(firebase.auth)
-const { push } = useRouter()
-const { locale } = useI18n() as unknown as { locale: Ref<string> }
-const { t } = useI18n()
+const drawerOpen = ref(false);
+const { user } = useAuth(firebase.auth);
+const { push } = useRouter();
+const { locale } = useI18n() as unknown as { locale: Ref<string> };
+const { t } = useI18n();
 
-const closeDrawer = () => drawerOpen.value = false
-const openDrawer = () => drawerOpen.value = true
+const closeDrawer = () => (drawerOpen.value = false);
+const openDrawer = () => (drawerOpen.value = true);
 
 const toggleLocale = () => {
-  if (locale.value === 'en')
-    locale.value = 'zh-CN'
-  else
-    locale.value = 'en'
-}
+  if (locale.value === 'en') locale.value = 'zh-CN';
+  else locale.value = 'en';
+};
 
 const routes = [
   { name: 'navbar.home', icon: 'flat-color-icons:home', path: '/' },
-  { name: 'navbar.launching', icon: 'emojione-confetti-ball', path: '/launching' },
+  // { name: 'navbar.launching', icon: 'emojione-confetti-ball', path: '/launching' },
+  { name: 'navbar.video', icon: 'twemoji-film-frames', path: '/video' },
   { name: 'navbar.linktree', icon: 'emojione-v1:evergreen-tree', path: '/linktree' },
-]
+];
 </script>
 
 <template>
@@ -166,10 +174,12 @@ const routes = [
             border="rounded-xl"
             outline="focus:outline-none"
             transition="colors duration-200 ease-in-out"
-            @click="() => {
-              push(route.path)
-              closeDrawer()
-            }"
+            @click="
+              () => {
+                push(route.path);
+                closeDrawer();
+              }
+            "
           >
             <Icon :icon="route.icon" w="6" h="6" m="r-2" />
             {{ t(route.name) }}

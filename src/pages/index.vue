@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import type { Ref } from 'vue';
 import { db, firebase } from '~/modules/firebase';
 import Spinner from '~/components/Spinner.vue';
-import type { Notification, Event } from '~/types';
+import type { Notification, Event, User } from '~/types';
 
 const greetings = ['Hello', 'Hi', 'Yo', 'Hey', 'Hola', 'こんにちは', 'Bonjour', 'Salut', '你好'];
 const weekdays: Record<number, string> = {
@@ -27,16 +27,36 @@ const weekdays_CN: Record<number, string> = {
   5: '星期五',
   6: '星期六',
 };
+const roles = [
+  { id: 1, name: { en: 'Trainee', 'zh-CN': '学员' }, value: 'trainee' },
+  { id: 2, name: { en: 'Producer', 'zh-CN': '制作人' }, value: 'producer' },
+  { id: 3, name: { en: 'Mentor', 'zh-CN': '导师' }, value: 'mentor' },
+  { id: 4, name: { en: 'WM', 'zh-CN': '工作人员' }, value: 'wm' },
+  { id: 5, name: { en: 'Production Crew', 'zh-CN': '制作团队' }, value: 'crew' },
+];
 
 const notificationsRef = db.collection('notifications');
 const eventsRef = db.collection('events');
+const usersRef = db.collection('users');
 
 // @ts-ignore
 const notifications = useFirestore<Notification[]>(notificationsRef);
 // @ts-ignore
 const events = useFirestore<Event[]>(eventsRef);
+// @ts-ignore
+const users = useFirestore<User[]>(usersRef);
 
-const { user } = useAuth(firebase.auth());
+const { user: firebaseUser } = useAuth(firebase.auth());
+
+const user = ref<User | undefined>();
+
+watch(users, () => {
+  if (!users.value) return;
+  if (!firebaseUser.value) return;
+
+  user.value = users.value.find((u) => u.uid === firebaseUser.value?.uid);
+});
+
 const { locale } = useI18n() as unknown as { locale: Ref<string> };
 const { t } = useI18n();
 
@@ -47,7 +67,7 @@ watch(events, () => {
   if (!events.value) return;
 
   event.value = events.value.sort(
-    (a, b) => a.updatedAt.toDate().getTime() - b.updatedAt.toDate().getTime()
+    (a, b) => b.start_datetime.toDate().getTime() - a.start_datetime.toDate().getTime()
   )[0];
 });
 
@@ -77,11 +97,12 @@ const greetingHandler = () => {
     <div text="space-pre-wrap 3xl gray-700" font="bold" @click="greetingHandler">
       <h2 text="xl">{{ word }},</h2>
       <h1>
-        {{ `${user?.displayName}` }}
+        {{ locale === 'en' ? user.name.en : user.name['zh-CN'] }}
       </h1>
     </div>
 
     <div
+      v-if="user"
       m="t-8"
       p="x-4 y-3"
       bg="gray-100"
@@ -91,10 +112,7 @@ const greetingHandler = () => {
       shadow="xl"
     >
       <div flex="~" align="items-center">
-        <h3 text="xl" font="semibold">
-          {{ user?.displayName }}
-        </h3>
-        <div
+        <!-- <div
           m="l-2"
           p="x-2"
           h="5"
@@ -106,12 +124,42 @@ const greetingHandler = () => {
           align="items-center"
         >
           {{ t('home.identification.trainee') }}
+        </div> -->
+        <div flex="~ wrap" align="items-center">
+          <h3 m="r-2" text="xl" font="semibold">
+            {{ locale === 'en' ? user.name.en : user.name['zh-CN'] }}
+          </h3>
+          <div
+            v-for="role in user.roles"
+            :key="role"
+            p="x-2"
+            h="5"
+            m="r-2"
+            border="rounded-3xl"
+            text="xs gray-700"
+            flex="~"
+            justify="center"
+            align="items-center"
+            :class="{
+              'bg-neonGreen': role === 'trainee',
+              'bg-yellow-300': role === 'producer',
+              'bg-blue-300': role === 'mentor',
+              'bg-green-300': role === 'wm',
+              'bg-violet-200': role === 'crew',
+            }"
+          >
+            {{
+              locale === 'en'
+                ? roles.find((r) => r.value === role)?.name.en
+                : roles.find((r) => r.value === role)?.name['zh-CN']
+            }}
+          </div>
         </div>
       </div>
       <div m="t-1" flex="~ col" text="sm" font="medium">
-        <div flex="~" justify="between">
+        <div v-show="user.trainee_id" flex="~" justify="between">
           <p>{{ t('home.identification.id_number_label') }} :</p>
-          <p>D217001</p>
+          <p>{{ user.trainee_id }}</p>
         </div>
         <div flex="~" justify="between">
           <p>{{ t('home.identification.programme_label') }} :</p>
@@ -123,6 +171,8 @@ const greetingHandler = () => {
         </div>
       </div>
     </div>
+
+    <Spinner v-else animate="spin" m="t-8 x-auto" w="12" h="12" text="neonGreen" />
 
     <div v-if="event" m="t-8">
       <h3 text="xl" font="medium">
@@ -147,15 +197,15 @@ const greetingHandler = () => {
             </p>
             <p text="sm">
               {{
-                `${event.updatedAt.toDate().toLocaleDateString()} (${
+                `${event.start_datetime.toDate().toLocaleDateString()} (${
                   locale === 'en'
-                    ? weekdays[event.updatedAt.toDate().getDay()]
-                    : weekdays_CN[event.updatedAt.toDate().getDay()]
+                    ? weekdays[event.start_datetime.toDate().getDay()]
+                    : weekdays_CN[event.start_datetime.toDate().getDay()]
                 })`
               }}
             </p>
             <p text="sm" font="medium">
-              {{ event.updatedAt.toDate().toLocaleTimeString() }}
+              {{ event.start_datetime.toDate().toLocaleTimeString() }}
             </p>
           </div>
         </a>
@@ -178,7 +228,7 @@ const greetingHandler = () => {
         {{ t('home.notification') }}
       </h3>
       <a
-        v-for="(notification, index) in notifications"
+        v-for="(notification, index) in notifications.filter((n) => n.active)"
         :key="notification.title.en"
         :m="`${index === 0 ? 't-4' : ''} ${index !== notifications.length - 1 ? 'b-4' : ''}`"
         :href="notification.link"

@@ -7,6 +7,11 @@ const links: {
   onclick?: () => void;
 }[] = [
   {
+    img: 'https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/MVThumbnail.PNG?alt=media&token=0dae8fc6-ad79-4eee-a272-33de46f52d5a',
+    title: '《有祢》专属 MV',
+    link: 'https://mentu-lxs.notion.site/MV-42e736076a0144e3805d977f4c3ff5e0',
+  },
+  {
     img: 'https://i.pinimg.com/favicons/f446bd086a965df9beea6b3962eaa174079c624972e899cf3a39331e.png?d23e369be383e6616adf07b90a351957',
     title: '迎新会 Zoom',
     link: 'https://zoom.us/j/6905199217?pwd=bmdkTkVSUlZuNjNLTnFMVW5RVnQzQT09',
@@ -47,6 +52,7 @@ const links: {
         src="https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/Icon.png?alt=media&token=d72bc58e-b45a-401d-b370-9b961213352c"
         w="20"
         h="20"
+        object="cover"
       />
       <h3 font="bold" m="t-4">门徒练习生</h3>
       <a
@@ -68,7 +74,7 @@ const links: {
         cursor="pointer"
         :onclick="link.onclick ? link.onclick : undefined"
       >
-        <img :src="link.img" pos="absolute left-4" w="12" h="12" />
+        <img :src="link.img" pos="absolute left-4" w="12" h="12" object="cover" />
         <p m="l-4" font="medium">
           {{ link.title }}
         </p>

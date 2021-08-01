@@ -37,6 +37,7 @@ const countdownStr = ref('');
 // Watcher only start confetti if the bar first reach 100%
 watch(launching, () => {
   if (!launching.value) return;
+  if (launching.value.end_datetime.toDate() >= now.value) return;
 
   const percentage = (launching.value.count / launching.value.participants) * 100;
 
@@ -115,173 +116,177 @@ const sendMessage = () => {
 </script>
 
 <template>
-  <Firework v-if="startFirework" />
-
   <template v-if="launching">
-    <div
-      v-if="launching.start_datetime.toDate() < new Date()"
-      h="[91vh]"
-      flex="~ col"
-      justify="center"
-      align="items-center"
-      pos="relative"
-    >
-      <div v-if="launched.voted" w="full" p="t-[56.25%]" pos="relative" overflow="hidden">
-        <iframe
-          src="https://www.youtube.com/embed/oJAxa_ODcSc"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          w="full"
-          h="full"
-          pos="absolute inset-0"
-        ></iframe>
-      </div>
+    <template v-if="launching.end_datetime.toDate() >= now">
+      <Firework v-if="startFirework" />
 
-      <div h="2" w="72" :m="launched.voted ? 't-6' : ''" pos="relative">
-        <div
-          h="full"
+      <div
+        v-if="launching.start_datetime.toDate() < now"
+        h="[91vh]"
+        flex="~ col"
+        justify="center"
+        align="items-center"
+        pos="relative"
+      >
+        <div v-if="launched.voted" w="full" p="t-[56.25%]" pos="relative" overflow="hidden">
+          <iframe
+            src="https://www.youtube.com/embed/oJAxa_ODcSc"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            w="full"
+            h="full"
+            pos="absolute inset-0"
+          ></iframe>
+        </div>
+
+        <div h="2" w="72" :m="launched.voted ? 't-6' : ''" pos="relative">
+          <div
+            h="full"
+            bg="neonGreen"
+            border="rounded"
+            pos="absolute"
+            :style="{
+              width: `${
+                (launching.count / launching.participants) * 100 >= 100
+                  ? '100'
+                  : ((launching.count / launching.participants) * 100).toFixed(0)
+              }%`,
+            }"
+          ></div>
+          <div h="full" w="full" bg="neonGreenShade" border="rounded"></div>
+        </div>
+
+        <p m="t-4" text="4xl" font="mono">
+          {{ ((launching.count / launching.participants) * 100).toFixed(0) }}%
+        </p>
+
+        <input
+          ref="inputRef"
+          v-model="messageText"
+          :placeholder="t('launching.input_placeholder')"
+          autofocus
+          m="y-4"
+          w="2/3 sm:1/3"
+          p="x-4 y-3"
+          bg="true-gray-50 dark:true-gray-700"
+          text="sm"
+          border="rounded-2xl"
+          shadow="lg"
+          outline="focus:none"
+          ring="focus:2 neonGreen opacity-70"
+        />
+        <button
+          p="x-4 y-3"
           bg="neonGreen"
-          border="rounded"
-          pos="absolute"
-          :style="{
-            width: `${
-              (launching.count / launching.participants) * 100 >= 100
-                ? '100'
-                : ((launching.count / launching.participants) * 100).toFixed(0)
-            }%`,
-          }"
-        ></div>
-        <div h="full" w="full" bg="neonGreenShade" border="rounded"></div>
+          text="sm dark-700"
+          font="medium"
+          flex="~"
+          align="items-center"
+          border="rounded-2xl"
+          outline="focus:none"
+          shadow="lg"
+          @click="sendMessage"
+        >
+          {{ t('launching.button') }}
+          <twemoji-outbox-tray w="4" h="4" m="l-1" />
+        </button>
+
+        <div v-if="messages" pos="absolute top-0">
+          <vue-danmaku :danmus="messages" use-slot w="screen" h="[250px]" :speeds="100">
+            <template #dm="{ danmu }">
+              <div
+                p="x-3 y-2"
+                bg="gray-100 dark:true-gray-700"
+                border="rounded-full"
+                flex="~"
+                align="items-center"
+              >
+                <img
+                  border="rounded-full"
+                  w="6"
+                  h="6"
+                  m="r-1"
+                  :src="danmu.sentBy.avatar_url"
+                  :alt="danmu.sentBy.name"
+                />
+                <span text="gray-700 dark:gray-200 sm"
+                  >{{ danmu.sentBy.name }}: {{ danmu.content }}</span
+                >
+              </div>
+            </template>
+          </vue-danmaku>
+        </div>
       </div>
 
-      <p m="t-4" text="4xl" font="mono">
-        {{ ((launching.count / launching.participants) * 100).toFixed(0) }}%
-      </p>
+      <div v-else h="[85vh]" flex="~ col" justify="center" align="items-center">
+        <div text="sm" flex="~" align="items-center">
+          <noto-stopwatch w="4" h="4" m="r-1" />Launching will be available in
+        </div>
+        <p font="mono bold" text="3xl">{{ countdownStr }}</p>
+      </div>
 
-      <input
-        ref="inputRef"
-        v-model="messageText"
-        :placeholder="t('launching.input_placeholder')"
-        autofocus
-        m="y-4"
-        w="2/3 sm:1/3"
-        p="x-4 y-3"
-        bg="true-gray-50 dark:true-gray-700"
-        text="sm"
-        border="rounded-2xl"
-        shadow="lg"
-        outline="focus:none"
-        ring="focus:2 neonGreen opacity-70"
-      />
       <button
         p="x-4 y-3"
+        z="10"
+        pos="fixed bottom-4 right-4"
         bg="neonGreen"
-        text="sm dark-700"
-        font="medium"
-        flex="~"
-        align="items-center"
         border="rounded-2xl"
+        shadow="xl"
+        text="xl"
         outline="focus:none"
-        shadow="lg"
-        @click="sendMessage"
+        @click="addCount"
       >
-        {{ t('launching.button') }}
-        <twemoji-outbox-tray w="4" h="4" m="l-1" />
+        <twemoji-party-popper />
       </button>
 
-      <div v-if="messages" pos="absolute top-0">
-        <vue-danmaku :danmus="messages" use-slot w="screen" h="[250px]" :speeds="100">
-          <template #dm="{ danmu }">
-            <div
-              p="x-3 y-2"
-              bg="gray-100 dark:true-gray-700"
-              border="rounded-full"
-              flex="~"
-              align="items-center"
-            >
-              <img
-                border="rounded-full"
-                w="6"
-                h="6"
-                m="r-1"
-                :src="danmu.sentBy.avatar_url"
-                :alt="danmu.sentBy.name"
-              />
-              <span text="gray-700 dark:gray-200 sm"
-                >{{ danmu.sentBy.name }}: {{ danmu.content }}</span
-              >
-            </div>
-          </template>
-        </vue-danmaku>
-      </div>
-    </div>
+      <Dialog :open="launched.voted && dialogOpen" @close="closeDialog">
+        <DialogOverlay z="10" pos="fixed inset-0" backdrop="~ blur-[2px]" />
 
-    <div v-else h="[85vh]" flex="~ col" justify="center" align="items-center">
-      <div text="sm" flex="~" align="items-center">
-        <noto-stopwatch w="4" h="4" m="r-1" />Launching will be available in
-      </div>
-      <p font="mono bold" text="3xl">{{ countdownStr }}</p>
-    </div>
+        <div
+          w="<sm:4/5"
+          p="x-6 y-4"
+          z="10"
+          bg="gray-50 dark:dark-400"
+          pos="fixed top-[50%] left-[50%]"
+          flex="~ col"
+          align="items-center"
+          text="gray-700 dark:gray-200"
+          border="rounded-3xl"
+          shadow="2xl"
+          transform="~ translate-x-[-50%] translate-y-[-50%]"
+          transition="duration-200 ease-in-out"
+          class="bg-confetti-animated"
+        >
+          <div flex="~" align="items-center">
+            <h4 text="lg center" font="bold" m="r-2">
+              {{ t('launching.dialog.title') }}
+            </h4>
+            <twemoji-zany-face />
+          </div>
+          <button
+            m="t-2"
+            p="x-4 y-3"
+            bg="gray-200 dark:dark-200"
+            text="sm"
+            font="medium"
+            border="rounded-2xl"
+            outline="focus:none"
+            @click="closeDialog"
+          >
+            {{ t('launching.dialog.button') }}
+          </button>
+        </div>
+      </Dialog>
+    </template>
+
+    <div>Event is expired</div>
   </template>
 
   <div v-else h="[91vh]" flex="~ col" justify="center" align="items-center">
     <Spinner animate="spin" w="12" h="12" text="neonGreen" />
   </div>
-
-  <button
-    p="x-4 y-3"
-    z="10"
-    pos="fixed bottom-4 right-4"
-    bg="neonGreen"
-    border="rounded-2xl"
-    shadow="xl"
-    text="xl"
-    outline="focus:none"
-    @click="addCount"
-  >
-    <twemoji-party-popper />
-  </button>
-
-  <Dialog :open="launched.voted && dialogOpen" @close="closeDialog">
-    <DialogOverlay z="10" pos="fixed inset-0" backdrop="~ blur-[2px]" />
-
-    <div
-      w="<sm:4/5"
-      p="x-6 y-4"
-      z="10"
-      bg="gray-50 dark:dark-400"
-      pos="fixed top-[50%] left-[50%]"
-      flex="~ col"
-      align="items-center"
-      text="gray-700 dark:gray-200"
-      border="rounded-3xl"
-      shadow="2xl"
-      transform="~ translate-x-[-50%] translate-y-[-50%]"
-      transition="duration-200 ease-in-out"
-      class="bg-confetti-animated"
-    >
-      <div flex="~" align="items-center">
-        <h4 text="lg center" font="bold" m="r-2">
-          {{ t('launching.dialog.title') }}
-        </h4>
-        <twemoji-zany-face />
-      </div>
-      <button
-        m="t-2"
-        p="x-4 y-3"
-        bg="gray-200 dark:dark-200"
-        text="sm"
-        font="medium"
-        border="rounded-2xl"
-        outline="focus:none"
-        @click="closeDialog"
-      >
-        {{ t('launching.dialog.button') }}
-      </button>
-    </div>
-  </Dialog>
 </template>
 
 <route lang="yaml">

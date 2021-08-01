@@ -10,9 +10,28 @@ login:
   header: Discple Trainee
   description: In order to continue to the student portal, please first login
   google_login: Sign In with Google
+user_details:
+  header: Update Profile
+  description: Your profile details is not updated yet
+  submit: Submit
+  form:
+    name: English Name
+    name_cn: Chinese Name
+    phone_number: Phone number
+    age: Age
+    roles: Roles
+    trainee_id: Trainee ID
+    error:
+      name: Name is required
+      name_cn: Chinese name is required
+      phone_number: Phone number is required
+      age: Age is required
+      roles: Select at least 1 role
+      trainee_id: Trainee ID is required
 navbar:
   home: Home
   launching: Launching
+  video: Video
   linktree: Linktree
 menu:
   toggle_theme_dark: Dark Mode

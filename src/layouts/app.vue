@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router';
 import AuthController from '~/components/AuthController.vue';
 import Navbar from '~/components/Navbar.vue';
-// import UserDetails from '~/components/UserDetails.vue';
+import UserDetails from '~/components/UserDetails.vue';
 
 const { currentRoute } = useRouter();
 </script>
@@ -10,7 +10,7 @@ const { currentRoute } = useRouter();
 <template>
   <main text="gray-700 dark:gray-200">
     <AuthController />
-    <!-- <UserDetails /> -->
+    <UserDetails />
     <Navbar :class="`${currentRoute.fullPath === '/' ? 'text-gray-700' : ''} p-4`" />
     <div p="x-4">
       <router-view />

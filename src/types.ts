@@ -9,12 +9,13 @@ export type Notification = {
   link: string;
   title: { en: string; 'zh-CN': string };
   description: { en: string; 'zh-CN': string };
+  active: boolean;
 };
 
 export type Event = {
   id: string;
   icon: string;
-  updatedAt: firebase.firestore.Timestamp;
+  start_datetime: firebase.firestore.Timestamp;
   title_link: string;
   description_link: string;
   title: { en: string; 'zh-CN': string };
@@ -26,6 +27,7 @@ export type Launching = {
   participants: number;
   available: boolean;
   start_datetime: firebase.firestore.Timestamp;
+  end_datetime: firebase.firestore.Timestamp;
 };
 
 export type Message = {
@@ -36,11 +38,11 @@ export type Message = {
 
 export type User = {
   uid: string;
-  trainee_id: string;
-  displayName: string;
-  email: string;
-  name: { en: string; 'zh-CN': string };
+  trainee_id: string | null;
+  displayName: string | null;
+  email: string | null;
+  name: { en: string | null; 'zh-CN': string | null };
   roles: string[];
-  age: number;
-  phoneNo: string;
+  age: number | null;
+  phone_number: string | null;
 };
