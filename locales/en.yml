@@ -32,6 +32,7 @@ navbar:
   home: Home
   launching: Launching
   video: Video
+  test: Test
   linktree: Linktree
 menu:
   toggle_theme_dark: Dark Mode
@@ -55,3 +56,11 @@ launching:
   dialog:
     title: You vote has been successfully registered!
     button: Send a message!
+test:
+  disc:
+    title: DISC Personality Test
+    result: Result
+    description: Your personality trait is
+    no_test_done: You have not done your DISC test yet
+    button: Go now
+    submit: Submit

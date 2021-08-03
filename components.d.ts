@@ -23,6 +23,7 @@ declare module 'vue' {
     Spinner: typeof import('./src/components/Spinner.vue')['default']
     ThemeToggle: typeof import('./src/components/ThemeToggle.vue')['default']
     TwemojiClipboard: typeof import('virtual:vite-icons/twemoji/clipboard')['default']
+    TwemojiGrimacingFace: typeof import('virtual:vite-icons/twemoji/grimacing-face')['default']
     TwemojiLightBulb: typeof import('virtual:vite-icons/twemoji/light-bulb')['default']
     TwemojiLink: typeof import('virtual:vite-icons/twemoji/link')['default']
     TwemojiOutboxTray: typeof import('virtual:vite-icons/twemoji/outbox-tray')['default']

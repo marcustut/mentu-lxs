@@ -39,6 +39,7 @@ const routes = [
   { name: 'navbar.home', icon: 'flat-color-icons:home', path: '/' },
   // { name: 'navbar.launching', icon: 'emojione-confetti-ball', path: '/launching' },
   { name: 'navbar.video', icon: 'twemoji-film-frames', path: '/video' },
+  { name: 'navbar.test', icon: 'twemoji-hundred-points', path: '/test' },
   { name: 'navbar.linktree', icon: 'emojione-v1:evergreen-tree', path: '/linktree' },
 ];
 </script>

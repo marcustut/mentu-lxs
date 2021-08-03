@@ -32,6 +32,7 @@ navbar:
   home: 主页
   launching: 开幕仪式
   video: 视频
+  test: 测验
   linktree: 链接树
 menu:
   toggle_theme_dark: 暗黑模式
@@ -55,3 +56,11 @@ launching:
   dialog:
     title: 已收到您的投票！
     button: 发送弹幕！
+test:
+  disc:
+    title: DISC 性格测试
+    result: 成绩
+    description: 您的特质倾向为：
+    no_test_done: 你还未完成该测验
+    button: 开始测验
+    submit: 提交

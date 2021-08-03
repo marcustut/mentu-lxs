@@ -224,7 +224,7 @@ const greetingHandler = () => {
     <Spinner v-else animate="spin" m="t-8 x-auto" w="12" h="12" text="neonGreen" />
 
     <div v-if="notifications" m="t-8">
-      <h3 text="xl" font="medium">
+      <h3 m="b-4" text="xl" font="medium">
         {{ t('home.notification') }}
       </h3>
       <a
