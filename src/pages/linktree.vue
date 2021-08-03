@@ -7,6 +7,11 @@ const links: {
   onclick?: () => void;
 }[] = [
   {
+    img: 'https://i.pinimg.com/favicons/f446bd086a965df9beea6b3962eaa174079c624972e899cf3a39331e.png?d23e369be383e6616adf07b90a351957',
+    title: '你是属于什么担当？Zoom',
+    link: 'https://zoom.us/j/6905199217?pwd=bmdkTkVSUlZuNjNLTnFMVW5RVnQzQT09',
+  },
+  {
     img: 'https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/MVThumbnail.PNG?alt=media&token=0dae8fc6-ad79-4eee-a272-33de46f52d5a',
     title: '《有祢》专属 MV',
     link: 'https://mentu-lxs.notion.site/MV-42e736076a0144e3805d977f4c3ff5e0',

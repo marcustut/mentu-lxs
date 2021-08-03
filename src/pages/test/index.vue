@@ -55,10 +55,11 @@ const getPersonality = () => {
 <template>
   <div
     p="4"
+    bg="indigo-700"
+    text="gray-200"
     flex="~ col"
     justify="center"
     align="items-center"
-    bg="indigo-700"
     border="rounded-3xl"
     class="bg-confetti-static"
   >

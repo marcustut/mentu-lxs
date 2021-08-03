@@ -84,7 +84,7 @@ const submit = () => {
         <button
           m="t-2"
           p="x-4 y-2"
-          :bg="`${checked ? 'blue-500' : 'dark-400'}`"
+          :bg="`${checked ? 'blue-500' : 'gray-200 dark:dark-400'}`"
           text="left sm"
           border="rounded-2xl"
           outline="focus:none"
