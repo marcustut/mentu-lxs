@@ -64,3 +64,12 @@ test:
     no_test_done: You have not done your DISC test yet
     button: Go now
     submit: Submit
+  gift:
+    title: Spiritual Gift Test
+    result: Result
+    description: Your main spiritual gift is
+    no_test_done: You have not done your spiritual test yet
+    button: Go now
+    submit: Submit
+    totally_no: Definitely not
+    always_yes: Yes I am

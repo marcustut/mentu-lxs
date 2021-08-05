@@ -67,3 +67,9 @@ export type Disc = {
   displayName: string | null;
   responses: Record<Range<0, 40>, 'a' | 'b' | 'c' | 'd'>;
 };
+
+export type Gift = {
+  uid: string;
+  displayName: string | null;
+  responses: Record<number, 0 | 1 | 2 | 3 | 4>;
+};

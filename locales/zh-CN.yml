@@ -64,3 +64,12 @@ test:
     no_test_done: 你还未完成该测验
     button: 开始测验
     submit: 提交
+  gift:
+    title: 属灵恩赐测试
+    result: 成绩
+    description: 您的属灵恩赐为：
+    no_test_done: 你还未完成该测验
+    button: 开始测验
+    submit: 提交
+    totally_no: 完全没有
+    always_yes: 常有
