@@ -74,11 +74,11 @@ const getHighestGiftLabel = () => {
       <table text="xl sm">
         <thead>
           <tr bg="blue-700">
-            <th p="2" font="normal" border="~">宣教</th>
-            <th p="2" font="normal" border="~">传福音</th>
-            <th p="2" font="normal" border="~">接待</th>
-            <th p="2" font="normal" border="~">信心</th>
-            <th p="2" font="normal" border="~">领导</th>
+            <th p="2" font="normal" text="md" border="~">宣教</th>
+            <th p="2" font="normal" text="md" border="~">传福音</th>
+            <th p="2" font="normal" text="md" border="~">接待</th>
+            <th p="2" font="normal" text="md" border="~">信心</th>
+            <th p="2" font="normal" text="md" border="~">领导</th>
           </tr>
         </thead>
         <tbody>
@@ -94,11 +94,11 @@ const getHighestGiftLabel = () => {
       <table m="t-4" text="xl sm">
         <thead>
           <tr bg="blue-700">
-            <th p="2" font="normal" border="~">劝化</th>
-            <th p="2" font="normal" border="~">辨别诸灵</th>
-            <th p="2" font="normal" border="~">施舍</th>
-            <th p="2" font="normal" border="~">帮助人</th>
-            <th p="2" font="normal" border="~">怜悯</th>
+            <th p="2" font="normal" text="md" border="~">劝化</th>
+            <th p="2" font="normal" text="md" border="~">辨别诸灵</th>
+            <th p="2" font="normal" text="md" border="~">施舍</th>
+            <th p="2" font="normal" text="md" border="~">帮助人</th>
+            <th p="2" font="normal" text="md" border="~">怜悯</th>
           </tr>
         </thead>
         <tbody>
@@ -114,11 +114,11 @@ const getHighestGiftLabel = () => {
       <table m="t-4" text="xl sm">
         <thead>
           <tr bg="blue-700">
-            <th p="2" font="normal" border="~">使徒</th>
-            <th p="2" font="normal" border="~">单身</th>
-            <th p="2" font="normal" border="~">代祷</th>
-            <th p="2" font="normal" border="~">舍命受苦(殉道)</th>
-            <th p="2" font="normal" border="~">服事</th>
+            <th p="2" font="normal" text="md" border="~">使徒</th>
+            <th p="2" font="normal" text="md" border="~">单身</th>
+            <th p="2" font="normal" text="md" border="~">代祷</th>
+            <th p="2" font="normal" text="md" border="~">舍命受苦(殉道)</th>
+            <th p="2" font="normal" text="md" border="~">服事</th>
           </tr>
         </thead>
         <tbody>
@@ -134,11 +134,11 @@ const getHighestGiftLabel = () => {
       <table m="t-4" text="xl sm">
         <thead>
           <tr bg="blue-700">
-            <th p="2" font="normal" border="~">治理</th>
-            <th p="2" font="normal" border="~">神迹奇事情</th>
-            <th p="2" font="normal" border="~">医治</th>
-            <th p="2" font="normal" border="~">说方言</th>
-            <th p="2" font="normal" border="~">翻方言</th>
+            <th p="2" font="normal" text="md" border="~">治理</th>
+            <th p="2" font="normal" text="md" border="~">神迹奇事</th>
+            <th p="2" font="normal" text="md" border="~">医治</th>
+            <th p="2" font="normal" text="md" border="~">说方言</th>
+            <th p="2" font="normal" text="md" border="~">翻方言</th>
           </tr>
         </thead>
         <tbody>
@@ -154,11 +154,11 @@ const getHighestGiftLabel = () => {
       <table m="t-4" text="xl sm">
         <thead>
           <tr bg="blue-700">
-            <th p="2" font="normal" border="~">先知</th>
-            <th p="2" font="normal" border="~">牧师</th>
-            <th p="2" font="normal" border="~">教导</th>
-            <th p="2" font="normal" border="~">智慧的言语</th>
-            <th p="2" font="normal" border="~">知识的言语</th>
+            <th p="2" font="normal" text="md" border="~">先知</th>
+            <th p="2" font="normal" text="md" border="~">牧师</th>
+            <th p="2" font="normal" text="md" border="~">教导</th>
+            <th p="2" font="normal" text="md" border="~">智慧的言语</th>
+            <th p="2" font="normal" text="md" border="~">知识的言语</th>
           </tr>
         </thead>
         <tbody>
@@ -177,7 +177,7 @@ const getHighestGiftLabel = () => {
       </p>
     </template>
     <div v-else-if="giftResponses && user && !gift" flex="~ col" align="items-center">
-      <p flex="~" align="items-center">
+      <p flex="~" align="items-center" text="center">
         {{ t('test.gift.no_test_done') }}
         <twemoji-grimacing-face m="l-1.5" w="4" h="4" />
       </p>
