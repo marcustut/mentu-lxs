@@ -2,6 +2,7 @@
 import { useAuth } from '@vueuse/firebase';
 import { storage, firebase } from '~/modules/firebase';
 import { useI18n } from 'vue-i18n';
+import { useTimeoutFn } from '@vueuse/shared';
 import Spinner from '~/components/Spinner.vue';
 
 type File = {
@@ -13,10 +14,14 @@ const { user } = useAuth(firebase.auth());
 
 const urls = ref<File[]>([]);
 
+const { start } = useTimeoutFn(() => {
+  getMediaURLs(user.value!.uid);
+}, 3000);
+
 watch([user, urls], async () => {
   if (!user.value) return;
 
-  await getMediaURLs(user.value.uid);
+  start();
 });
 
 const getMediaURLs = async (uid: string) => {
