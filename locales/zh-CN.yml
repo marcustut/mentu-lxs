@@ -33,6 +33,7 @@ navbar:
   launching: 开幕仪式
   video: 视频
   test: 测验
+  inbox: 信箱
   linktree: 链接树
 menu:
   toggle_theme_dark: 暗黑模式
@@ -73,3 +74,5 @@ test:
     submit: 提交
     totally_no: 完全没有
     always_yes: 常有
+inbox:
+  title: 您的信箱

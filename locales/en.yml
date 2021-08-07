@@ -33,6 +33,7 @@ navbar:
   launching: Launching
   video: Video
   test: Test
+  inbox: Inbox
   linktree: Linktree
 menu:
   toggle_theme_dark: Dark Mode
@@ -73,3 +74,5 @@ test:
     submit: Submit
     totally_no: Definitely not
     always_yes: Yes I am
+inbox:
+  title: Your Inbox
