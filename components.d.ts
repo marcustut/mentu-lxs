@@ -20,7 +20,6 @@ declare module 'vue' {
     IconoirCancel: typeof import('virtual:vite-icons/iconoir/cancel')['default']
     LocaleToggle: typeof import('./src/components/LocaleToggle.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
-    NotoStopwatch: typeof import('virtual:vite-icons/noto/stopwatch')['default']
     README: typeof import('./src/components/README.md')['default']
     Spinner: typeof import('./src/components/Spinner.vue')['default']
     ThemeToggle: typeof import('./src/components/ThemeToggle.vue')['default']
@@ -28,9 +27,6 @@ declare module 'vue' {
     TwemojiGrimacingFace: typeof import('virtual:vite-icons/twemoji/grimacing-face')['default']
     TwemojiLightBulb: typeof import('virtual:vite-icons/twemoji/light-bulb')['default']
     TwemojiLink: typeof import('virtual:vite-icons/twemoji/link')['default']
-    TwemojiOutboxTray: typeof import('virtual:vite-icons/twemoji/outbox-tray')['default']
-    TwemojiPartyPopper: typeof import('virtual:vite-icons/twemoji/party-popper')['default']
-    TwemojiZanyFace: typeof import('virtual:vite-icons/twemoji/zany-face')['default']
     UilEnglishToChinese: typeof import('virtual:vite-icons/uil/english-to-chinese')['default']
     UserDetails: typeof import('./src/components/UserDetails.vue')['default']
   }

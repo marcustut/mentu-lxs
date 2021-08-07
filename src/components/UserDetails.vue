@@ -67,6 +67,10 @@ watch(users, () => {
 const submitUserDetails = handleSubmit((values) => {
   // If not logged in
   if (!firebaseUser.value) return;
+  if (!users.value) return;
+
+  // If user already exists
+  if (users.value.find((u) => u.uid === firebaseUser.value!.uid)) return;
 
   // If no role selected
   if (selectedRoles.value.length === 0) {

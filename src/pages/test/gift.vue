@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuth, useFirestore } from '@vueuse/firebase';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
-import { gift as data } from '~/data';
+import { gift as data, giftEn as dataEn } from '~/data';
 import { firebase, db } from '~/modules/firebase';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
@@ -13,11 +13,21 @@ const giftResponsesRef = db.collection('gift-responses');
 const giftResponses = useFirestore<Gift[]>(giftResponsesRef);
 const { user } = useAuth(firebase.auth());
 const { push } = useRouter();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const gift = ref<Gift>();
 // @ts-ignore
 const answers = ref<Gift['responses']>({});
+
+const questions = ref<typeof data>(dataEn);
+
+watch(locale, () => {
+  if (locale.value === 'en') {
+    questions.value = dataEn;
+  } else {
+    questions.value = data;
+  }
+});
 
 watch(giftResponses, () => {
   if (!giftResponses.value) return;
@@ -65,7 +75,7 @@ const submit = () => {
     <h1 text="2xl" font="bold">{{ t('test.gift.title') }}</h1>
 
     <RadioGroup
-      v-for="(question, index) in data"
+      v-for="(question, index) in questions"
       v-model="answers[index]"
       :key="index"
       :m="index !== 0 ? 't-8' : ''"

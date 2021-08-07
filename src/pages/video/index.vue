@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { useAuth } from '@vueuse/firebase';
+import { storage, firebase } from '~/modules/firebase';
+
+const { user } = useAuth(firebase.auth());
+
 const videos = [
   {
     id: 1,
@@ -15,6 +20,39 @@ const videos = [
     link: 'https://mentu-lxs.notion.site/MV-42e736076a0144e3805d977f4c3ff5e0',
   },
 ];
+
+watch(user, async () => {
+  if (!user.value) return;
+
+  console.log(await getMediaURLs(user.value.uid));
+});
+
+const getMediaURLs = async (uid: string) => {
+  const res = await storage.ref('PrayerVideo').listAll();
+
+  const urls: string[] = [];
+
+  // Find the person's folder from the list
+  res.prefixes.forEach(async (ref) => {
+    if (ref.name.includes(uid)) {
+      const folders = await ref.listAll();
+      folders.items.forEach(async (item) => {
+        const metadata = await item.getMetadata();
+        if (metadata) {
+          if (
+            (metadata.contentType as string).includes('video') ||
+            (metadata.contentType as string).includes('audio')
+          ) {
+            const url = await item.getDownloadURL();
+            urls.push(url);
+          }
+        }
+      });
+    }
+  });
+
+  return urls;
+};
 </script>
 
 <template>
@@ -44,7 +82,7 @@ const videos = [
       target="_blank"
       flex="~"
       align="items-center"
-      class="text-xs text-gray-700 dark:text-neonGreen underline"
+      class="text-xs text-gray-700 underline dark:text-neonGreen"
       >Notion 帖子 <twemoji-link m="l-2"
     /></a>
   </div>

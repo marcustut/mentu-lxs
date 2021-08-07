@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -25,5 +26,7 @@ export const signIn = async(): Promise<{ user: firebase.auth.UserCredential | nu
 export const signOut = () => firebase.auth().signOut()
 
 export const db = firebase.firestore()
+
+export const storage = firebase.storage()
 
 export { firebase }
