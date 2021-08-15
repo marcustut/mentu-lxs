@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useElementVisibility, useTransition } from '@vueuse/core';
+import { useElementVisibility, useTransition, useMediaQuery } from '@vueuse/core';
 import { useFirestore } from '@vueuse/firebase';
 import { Dialog, DialogOverlay, TransitionRoot, TransitionChild } from '@headlessui/vue';
 import { db } from '~/modules/firebase';
@@ -32,6 +32,12 @@ const pageTwoDialogOpen = ref(false);
 const isPageOneVisible = useElementVisibility(pageOne, { scrollTarget: main });
 const isPageTwoVisible = useElementVisibility(pageTwo, { scrollTarget: main });
 const isPageThreeVisible = useElementVisibility(pageThree, { scrollTarget: main });
+
+const is850px = useMediaQuery('(min-height: 850px)');
+const is950px = useMediaQuery('(min-height: 950px)');
+const is1050px = useMediaQuery('(min-height: 1050px)');
+const is1150px = useMediaQuery('(min-height: 1150px)');
+const is1250px = useMediaQuery('(min-height: 1250px)');
 
 const scoreTransition = useTransition(score, {
   duration: 2500,
@@ -89,10 +95,23 @@ watch(isPageTwoVisible, () => {
           h="14"
         />
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/PageOneBG.svg?alt=media&token=7d17feec-6de0-4c26-9f5f-647b5c198185"
+          src="/svg/PageOneBG.svg"
+          max-w="[105%]"
+          w="[105%]"
+          :h="
+            is1250px
+              ? '650px'
+              : is1150px
+              ? '600px'
+              : is1050px
+              ? '550px'
+              : is950px
+              ? '500px'
+              : is850px
+              ? '425px'
+              : '380px'
+          "
           pos="absolute bottom-0"
-          w="1000px"
-          h="650px"
           object="cover"
         />
         <div ref="pageOne" m="b-12">
@@ -103,12 +122,18 @@ watch(isPageTwoVisible, () => {
         </div>
         <div flex="~" justify="center" pos="relative" w="44" h="44">
           <img
-            :src="user ? user.avatar_url : 'https://i.ibb.co/94JTJrb/dorothea.jpg'"
+            :src="
+              user && user.avatar_url
+                ? user.avatar_url
+                : 'https://ui-avatars.com/api/?background=B0F55F'
+            "
             w="full"
             h="full"
+            pos="relative"
             object="cover"
             border="[#B0F55F] 4 rounded-full"
             shadow="md"
+            :style="{ objectPosition: '50% 10%' }"
           />
           <div
             p="x-3 y-1"
@@ -196,7 +221,7 @@ watch(isPageTwoVisible, () => {
                 leave-from="opacity-100"
                 leave-to="opacity-0"
               >
-                <p font="bahnschrift">STRENGTH:</p>
+                <p text="sm" font="bahnschrift">STRENGTH:</p>
                 <p v-if="report" font="normal" text="sm">
                   {{ report.strength }}
                 </p>
@@ -214,7 +239,7 @@ watch(isPageTwoVisible, () => {
                 leave-from="opacity-100"
                 leave-to="opacity-0"
               >
-                <p font="bahnschrift">WORDS OF ENCOURAGEMENT:</p>
+                <p text="sm" font="bahnschrift">WORDS OF ENCOURAGEMENT:</p>
                 <p v-if="report" font="normal" text="sm">
                   {{ report.words }}
                 </p>
