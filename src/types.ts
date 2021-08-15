@@ -53,6 +53,7 @@ export type Message = {
 
 export type User = {
   uid: string;
+  avatar_url?: string;
   trainee_id: string | null;
   displayName: string | null;
   email: string | null;
@@ -72,4 +73,20 @@ export type Gift = {
   uid: string;
   displayName: string | null;
   responses: Record<number, 0 | 1 | 2 | 3 | 4>;
+};
+
+export type Report = {
+  uid: string;
+  name: string;
+  scores: {
+    time: number;
+    communication: number;
+    willingness: number;
+    responsibility: number;
+    maturity: number;
+  };
+  strength: string;
+  words: string;
+  total: number;
+  grand_total: number;
 };

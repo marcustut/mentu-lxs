@@ -1,7 +1,24 @@
 <script setup lang="ts">
 import { useElementVisibility, useTransition } from '@vueuse/core';
+import { useFirestore } from '@vueuse/firebase';
 import { Dialog, DialogOverlay, TransitionRoot, TransitionChild } from '@headlessui/vue';
+import { db } from '~/modules/firebase';
+import type { Report, User } from '~/types';
+import Spinner from '~/components/Spinner.vue';
 import JSConfetti from 'js-confetti';
+
+// Page props
+const props = defineProps<{ uid: string }>();
+
+const reportRef = db.collection('reports').where('uid', '==', props.uid);
+const userRef = db.collection('users').where('uid', '==', props.uid);
+// @ts-ignore
+const reportRes = useFirestore<Report[]>(reportRef);
+// @ts-ignore
+const userRes = useFirestore<User[]>(userRef);
+
+const report = ref<Report | null>(null);
+const user = ref<User | null>(null);
 
 const score = ref(0);
 const main = ref(null);
@@ -25,6 +42,16 @@ const scoreTransition = useTransition(score, {
 
 const jsConfetti = new JSConfetti();
 
+// Update report to be the first query result
+watch(reportRes, () => {
+  if (reportRes.value && reportRes.value.length !== 0) report.value = reportRes.value[0];
+});
+
+// Update user to be the first query result
+watch(userRes, () => {
+  if (userRes.value && userRes.value.length !== 0) user.value = userRes.value[0];
+});
+
 // Play Confetti when first page is visible
 watch(isPageOneVisible, () => {
   if (isPageOneVisible.value) jsConfetti.addConfetti();
@@ -32,7 +59,11 @@ watch(isPageOneVisible, () => {
 
 // Animate page two on visibility change
 watch(isPageTwoVisible, () => {
-  if (isPageTwoVisible.value) score.value = 100;
+  if (!report.value) {
+    score.value = 0;
+    return;
+  }
+  if (isPageTwoVisible.value) score.value = parseInt(`${report.value.grand_total}`);
   else score.value = 0;
 });
 </script>
@@ -72,7 +103,7 @@ watch(isPageTwoVisible, () => {
         </div>
         <div flex="~" justify="center" pos="relative" w="44" h="44">
           <img
-            src="https://i.ibb.co/94JTJrb/dorothea.jpg"
+            :src="user ? user.avatar_url : 'https://i.ibb.co/94JTJrb/dorothea.jpg'"
             w="full"
             h="full"
             object="cover"
@@ -92,8 +123,11 @@ watch(isPageTwoVisible, () => {
           </div>
         </div>
         <div m="t-12" z="10" flex="~ col" align="items-center" text="black">
-          <p text="2xl" font="bold tracking-wider">DOROTHEA WONG</p>
-          <p m="t-1" text="lg" font="tracking-widest">D217427</p>
+          <template v-if="report && user">
+            <p text="2xl" font="bold tracking-wider">{{ report.name }}</p>
+            <p m="t-1" text="lg" font="tracking-widest">{{ user.trainee_id }}</p>
+          </template>
+          <Spinner v-else animate="spin" m="x-auto" w="12" h="12" text="black" />
         </div>
       </div>
     </div>
@@ -163,9 +197,10 @@ watch(isPageTwoVisible, () => {
                 leave-to="opacity-0"
               >
                 <p font="bahnschrift">STRENGTH:</p>
-                <p font="normal" text="sm">
-                  冷静派，管理能力很好，文字也很强，单纯的只相信上帝的计划和安排，即使超乎自己的能力但却能一一完成。
+                <p v-if="report" font="normal" text="sm">
+                  {{ report.strength }}
                 </p>
+                <Spinner v-else animate="spin" m="x-auto" w="12" h="12" text="neonGreen" />
               </TransitionChild>
               <TransitionChild
                 m="t-4"
@@ -180,9 +215,10 @@ watch(isPageTwoVisible, () => {
                 leave-to="opacity-0"
               >
                 <p font="bahnschrift">WORDS OF ENCOURAGEMENT:</p>
-                <p font="normal" text="sm">
-                  更多的操练神给你的能力，不要限制你自己，有时候不一定在你的能力范围内，也不是你能想象的，但我相信神要带领你去到另一个层次。
+                <p v-if="report" font="normal" text="sm">
+                  {{ report.words }}
                 </p>
+                <Spinner v-else animate="spin" m="x-auto" w="12" h="12" text="neonGreen" />
               </TransitionChild>
             </TransitionRoot>
           </div>
