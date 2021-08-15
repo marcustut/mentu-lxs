@@ -59,8 +59,8 @@ watch(userRes, () => {
 });
 
 // Play Confetti when first page is visible
-watch(isPageOneVisible, () => {
-  if (isPageOneVisible.value) jsConfetti.addConfetti();
+watch([isPageOneVisible, user], () => {
+  if (isPageOneVisible.value && user.value) jsConfetti.addConfetti();
 });
 
 // Animate page two on visibility change
@@ -75,7 +75,7 @@ watch(isPageTwoVisible, () => {
 </script>
 
 <template>
-  <div ref="main" class="scroll-snap-container fullscreen" font="bahnschrift">
+  <div ref="main" class="scroll-snap-container fullscreen" font="bahnschrift" text="white">
     <div class="item" p="x-4 y-16" bg="white">
       <div
         h="full"
