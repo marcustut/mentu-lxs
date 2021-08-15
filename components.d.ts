@@ -21,15 +21,20 @@ declare module 'vue' {
     LocaleToggle: typeof import('./src/components/LocaleToggle.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     README: typeof import('./src/components/README.md')['default']
+    ScrollSnap: typeof import('./src/components/ScrollSnap.vue')['default']
+    ScrollSnapItem: typeof import('./src/components/ScrollSnapItem.vue')['default']
     Spinner: typeof import('./src/components/Spinner.vue')['default']
     ThemeToggle: typeof import('./src/components/ThemeToggle.vue')['default']
     'Twemoji:inboxTray': typeof import('virtual:vite-icons/twemoji/inbox-tray')['default']
+    'Twemoji:zanyFace': typeof import('virtual:vite-icons/twemoji/zany-face')['default']
     TwemojiClipboard: typeof import('virtual:vite-icons/twemoji/clipboard')['default']
     TwemojiGrimacingFace: typeof import('virtual:vite-icons/twemoji/grimacing-face')['default']
     TwemojiLightBulb: typeof import('virtual:vite-icons/twemoji/light-bulb')['default']
     TwemojiLink: typeof import('virtual:vite-icons/twemoji/link')['default']
     UilEnglishToChinese: typeof import('virtual:vite-icons/uil/english-to-chinese')['default']
     UserDetails: typeof import('./src/components/UserDetails.vue')['default']
+    VueScrollSnap: typeof import('./src/components/VueScrollSnap.vue')['default']
+    VueScrollSnapItem: typeof import('./src/components/VueScrollSnapItem.vue')['default']
   }
 }
 

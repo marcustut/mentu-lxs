@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import { db } from '~/modules/firebase';
-import { useFirestore } from '@vueuse/firebase';
-import type { User } from '~/types';
+import { ref } from 'vue';
+import { useElementVisibility } from '@vueuse/core';
+const el = ref(null);
+const isVisible = useElementVisibility(el);
 
-const usersRef = db.collection('users');
-
-// @ts-ignore
-const userResponses = useFirestore<User[]>(usersRef);
-
-watch(userResponses, () => {
-  userResponses.value?.forEach((u) => console.log(`${u.displayName}: ${u.uid}`));
+watch(isVisible, () => {
+  console.log(isVisible.value);
 });
 </script>
 
 <template>
-  <pre>{{ userResponses }}</pre>
+  <div ref="el" style="height: 200px">
+    <note class="mb-2"> Info on the right bottom corner </note>
+    <div class="area">Target Element (scroll down)</div>
+  </div>
+  <div class="float">
+    {{ isVisible }}
+  </div>
+  <div h="1000px">heyy</div>
 </template>
