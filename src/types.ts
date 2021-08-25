@@ -90,3 +90,16 @@ export type Report = {
   total: number;
   grand_total: number;
 };
+
+export type Group = {
+  id: string;
+  name: string;
+  video: {
+    caption: string;
+    likes: number;
+    name: string;
+    src: string;
+    postedAt: firebase.firestore.Timestamp;
+    tags: string[];
+  };
+};

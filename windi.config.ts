@@ -12,6 +12,7 @@ export default defineConfig({
     extend: {
       colors: {
         neonGreen: '#9bf73c',
+        neonGreenDark: '#75e600',
         neonGreenShade: '#f2ffe6',
         textDark: '#303030',
       },
