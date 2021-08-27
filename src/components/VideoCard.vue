@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { Popover, PopoverButton, PopoverOverlay, PopoverPanel } from '@headlessui/vue';
 import { useFirestore } from '@vueuse/firebase';
 import { useGroupVideos } from '~/stores';
 import { db } from '~/modules/firebase';
 import type { PropType } from 'vue';
 import type { Group } from '~/types';
+import { useClipboard } from '@vueuse/core';
 
 const props = defineProps({
   groupId: { type: String, required: true },
@@ -26,6 +28,8 @@ const group = useFirestore<Group>(groupRef);
 const groupVideosState = useGroupVideos();
 
 const liked = ref<boolean | undefined>();
+
+const { copy } = useClipboard();
 
 const found = Object.keys(groupVideosState.value.likesHistory).find((k) => k === props.groupId);
 
@@ -101,11 +105,22 @@ const likeHandler = () => {
 
   addLike(group.value.id);
 };
+
+const copyHandler = () => {
+  copy(encodeURI(`https://mentu-lxs.netlify.app/video/vote#${props.groupId}`));
+  alert(`Copied to clipboard`);
+};
 </script>
 
 <template>
-  <div v-if="group" p="3" pos="relative" border="1 gray-300 dark:true-gray-600 rounded-lg">
-    <p font="bold">{{ props.groupName }}</p>
+  <div
+    :id="group.id"
+    v-if="group"
+    p="3"
+    pos="relative"
+    border="1 gray-300 dark:true-gray-600 rounded-lg"
+  >
+    <p w="4/5" font="bold">{{ props.groupName }}</p>
     <img
       w="8"
       h="8"
@@ -141,19 +156,59 @@ const likeHandler = () => {
         <span m="l-1 b-1" text="sm" font="medium">{{ props.likes }}</span>
       </button>
 
-      <button
-        m="l-auto"
-        flex="~"
-        align="items-center"
-        text="hover:green-500"
-        outline="focus:none"
-        class="group"
-      >
-        <div p="1" bg="group-hover:green-200" border="rounded-full">
-          <octicon:share-16 w="5" h="5" />
-        </div>
-        <span m="l-1 b-1" text="sm" font="medium">Share</span>
-      </button>
+      <Popover v-slot="{ open }" m="l-auto" pos="relative">
+        <PopoverButton
+          flex="~"
+          align="items-center"
+          text="hover:green-500"
+          outline="focus:none"
+          class="group"
+        >
+          <div p="1" bg="group-hover:green-200" border="rounded-full">
+            <octicon:share-16 w="5" h="5" />
+          </div>
+          <span m="l-1 b-1" text="sm" font="medium">Share</span>
+        </PopoverButton>
+
+        <PopoverOverlay class="bg-black" :class="open ? 'opacity-30 fixed inset-0' : 'opacity-0'" />
+
+        <PopoverPanel pos="absolute z-10 -top-28 -left-12">
+          <div p="2" bg="green-700" text="textDark" border="rounded-xl">
+            <a
+              p="2"
+              bg="hover:neonGreenDark hover:opacity-25"
+              flex="~"
+              align="items-center"
+              font="bold"
+              border="rounded-xl"
+              class="text-sm text-white"
+              :href="
+                encodeURI(
+                  `https://api.whatsapp.com/send?text=*Vote for ${group.name} now!*\n\n_https://mentu-lxs.netlify.app/video/vote#${group.id} 🔗_`
+                )
+              "
+              data-action="share/whatsapp/share"
+            >
+              <logos:whatsapp w="6" h="6" m="r-2" />
+              WhatsApp
+            </a>
+            <button
+              p="2"
+              bg="hover:neonGreenDark hover:opacity-25"
+              flex="~"
+              align="items-center"
+              font="bold"
+              border="rounded-xl"
+              text="sm white"
+              outline="focus:none"
+              @click="copyHandler"
+            >
+              <mdi:link-variant w="6" h="6" m="r-2" />
+              Copy Link
+            </button>
+          </div>
+        </PopoverPanel>
+      </Popover>
     </div>
   </div>
   <Spinner v-else animate="spin" m="t-8 x-auto" w="12" h="12" text="neonGreen" />

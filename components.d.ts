@@ -21,6 +21,8 @@ declare module 'vue' {
     'Ion:heartOutline': typeof import('virtual:vite-icons/ion/heart-outline')['default']
     'Ion:heartSharp': typeof import('virtual:vite-icons/ion/heart-sharp')['default']
     LocaleToggle: typeof import('./src/components/LocaleToggle.vue')['default']
+    'Logos:whatsapp': typeof import('virtual:vite-icons/logos/whatsapp')['default']
+    'Mdi:linkVariant': typeof import('virtual:vite-icons/mdi/link-variant')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     NotoStopwatch: typeof import('virtual:vite-icons/noto/stopwatch')['default']
     'Octicon:share16': typeof import('virtual:vite-icons/octicon/share16')['default']
