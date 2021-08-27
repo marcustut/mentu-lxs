@@ -21,7 +21,7 @@ const groups = useFirestore<Group[]>(groupsRef);
     </div>
     <VideoCard
       v-if="groups"
-      v-for="(group, index) in groups"
+      v-for="(group, index) in groups.sort((a, b) => b.video.likes - a.video.likes)"
       :key="group.id"
       :group-id="group.id"
       :group-name="group.name"

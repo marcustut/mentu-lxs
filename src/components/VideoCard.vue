@@ -114,8 +114,8 @@ const likeHandler = () => {
       src="https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/Icon.png?alt=media&token=d72bc58e-b45a-401d-b370-9b961213352c"
     />
     <p text="xs">@{{ props.videoName }}</p>
-    <p m="t-2">{{ props.caption }}</p>
-    <div flex="~" text="sm neonGreenDark dark:neonGreen" font="medium">
+    <p m="t-2" text="space-pre-wrap">{{ props.caption.split('\\n').join('\n') }}</p>
+    <div m="t-1" flex="~ wrap" text="sm neonGreenDark dark:neonGreen" font="medium">
       <span v-for="tag in tags" :key="tag" mr="1" underline="hover:~" cursor="pointer"
         >#{{ tag }}</span
       >
@@ -127,7 +127,6 @@ const likeHandler = () => {
     <div m="y-2" h="[1px]" w="full" bg="gray-300 dark:true-gray-600" />
     <div p="x-1" flex="~" align="items-center">
       <button
-        m="r-4"
         flex="~"
         align="items-center"
         :text="liked ? 'red-500' : 'hover:red-500'"
@@ -143,6 +142,7 @@ const likeHandler = () => {
       </button>
 
       <button
+        m="l-auto"
         flex="~"
         align="items-center"
         text="hover:green-500"
