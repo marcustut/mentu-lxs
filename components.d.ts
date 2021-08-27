@@ -4,7 +4,6 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AuthController: typeof import('./src/components/AuthController.vue')['default']
-    'Bi:heart': typeof import('virtual:vite-icons/bi/heart')['default']
     BiArrowUpRightCircle: typeof import('virtual:vite-icons/bi/arrow-up-right-circle')['default']
     BiChevronExpand: typeof import('virtual:vite-icons/bi/chevron-expand')['default']
     BxBxsMoon: typeof import('virtual:vite-icons/bx/bxs-moon')['default']
@@ -22,8 +21,8 @@ declare module 'vue' {
     'Ion:heartOutline': typeof import('virtual:vite-icons/ion/heart-outline')['default']
     'Ion:heartSharp': typeof import('virtual:vite-icons/ion/heart-sharp')['default']
     LocaleToggle: typeof import('./src/components/LocaleToggle.vue')['default']
-    'Mdi:chatOutline': typeof import('virtual:vite-icons/mdi/chat-outline')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
+    NotoStopwatch: typeof import('virtual:vite-icons/noto/stopwatch')['default']
     'Octicon:share16': typeof import('virtual:vite-icons/octicon/share16')['default']
     README: typeof import('./src/components/README.md')['default']
     ScrollSnap: typeof import('./src/components/ScrollSnap.vue')['default']
@@ -37,11 +36,12 @@ declare module 'vue' {
     TwemojiGrimacingFace: typeof import('virtual:vite-icons/twemoji/grimacing-face')['default']
     TwemojiLightBulb: typeof import('virtual:vite-icons/twemoji/light-bulb')['default']
     TwemojiLink: typeof import('virtual:vite-icons/twemoji/link')['default']
+    TwemojiOutboxTray: typeof import('virtual:vite-icons/twemoji/outbox-tray')['default']
+    TwemojiPartyPopper: typeof import('virtual:vite-icons/twemoji/party-popper')['default']
+    TwemojiZanyFace: typeof import('virtual:vite-icons/twemoji/zany-face')['default']
     UilEnglishToChinese: typeof import('virtual:vite-icons/uil/english-to-chinese')['default']
     UserDetails: typeof import('./src/components/UserDetails.vue')['default']
     VideoCard: typeof import('./src/components/VideoCard.vue')['default']
-    VueScrollSnap: typeof import('./src/components/VueScrollSnap.vue')['default']
-    VueScrollSnapItem: typeof import('./src/components/VueScrollSnapItem.vue')['default']
   }
 }
 

@@ -9,6 +9,12 @@ const groupsRef = db.collection('groups');
 
 // @ts-ignore
 const groups = useFirestore<Group[]>(groupsRef);
+
+watch(groups, () => {
+  if (!groups.value) return;
+
+  groups.value = groups.value.sort((a, b) => b.video.likes - a.video.likes);
+});
 </script>
 
 <template>
@@ -21,7 +27,7 @@ const groups = useFirestore<Group[]>(groupsRef);
     </div>
     <VideoCard
       v-if="groups"
-      v-for="(group, index) in groups.sort((a, b) => b.video.likes - a.video.likes)"
+      v-for="(group, index) in groups"
       :key="group.id"
       :group-id="group.id"
       :group-name="group.name"
