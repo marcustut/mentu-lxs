@@ -38,6 +38,7 @@ watch(groups, () => {
       :tags="group.video.tags"
       :likes="group.video.likes"
       :liked="false"
+      :theme="group.video.theme"
       :m="`x-auto ${index === 0 ? '' : 't-4'}`"
       w="sm:1/2 lg:1/3 full"
     />

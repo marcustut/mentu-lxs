@@ -16,6 +16,7 @@ const props = defineProps({
   postedAt: { type: Date, required: true },
   likes: { type: Number, required: true },
   tags: { type: Array as PropType<string[]>, default: [] },
+  theme: { type: String, required: true },
 });
 
 const ONE_DAY = 60 * 60 * 24 * 1000; // in ms
@@ -120,7 +121,7 @@ const copyHandler = () => {
     pos="relative"
     border="1 gray-300 dark:true-gray-600 rounded-lg"
   >
-    <p w="4/5" font="bold">{{ props.groupName }}</p>
+    <p w="4/5" font="bold">{{ props.videoName }}</p>
     <img
       w="8"
       h="8"
@@ -128,7 +129,12 @@ const copyHandler = () => {
       object="cover"
       src="https://firebasestorage.googleapis.com/v0/b/mentu-lxs.appspot.com/o/Icon.png?alt=media&token=d72bc58e-b45a-401d-b370-9b961213352c"
     />
-    <p text="xs">@{{ props.videoName }}</p>
+    <p text="xs">@{{ props.groupName }}</p>
+    <div flex="~">
+      <p m="t-2" text="xs textDark" font="bold" p="x-2 y-1" bg="neonGreen" border="rounded-2xl">
+        主题: {{ props.theme }}
+      </p>
+    </div>
     <p m="t-2" text="space-pre-wrap">{{ props.caption.split('\\n').join('\n') }}</p>
     <div m="t-1" flex="~ wrap" text="sm neonGreenDark dark:neonGreen" font="medium">
       <span v-for="tag in tags" :key="tag" mr="1" underline="hover:~" cursor="pointer"

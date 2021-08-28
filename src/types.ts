@@ -101,5 +101,6 @@ export type Group = {
     src: string;
     postedAt: firebase.firestore.Timestamp;
     tags: string[];
+    theme: string;
   };
 };
