@@ -194,6 +194,11 @@ const { locale } = useI18n() as unknown as { locale: Ref<'en' | 'zh-CN'> };
             font="bold"
             outline="focus:none"
           >
+            <option value="fgacycpuchong">FGACYC Puchong</option>
+            <option value="fgacycsetapak">FGACYC Setapak</option>
+            <option value="fgacycrawang">FGACYC Rawang</option>
+            <option value="fgacycpj">FGACYC PJ</option>
+            <option value="fgacycusj">FGACYC USJ</option>
             <option v-for="user in users" :key="user.uid" :value="user.uid">
               {{ capitalize(user.name.en?.toLowerCase()) }}
             </option>
@@ -240,7 +245,7 @@ const { locale } = useI18n() as unknown as { locale: Ref<'en' | 'zh-CN'> };
         <button
           w="full"
           p="x-4 y-3"
-          m="t-4"
+          m="t-4 b-12"
           bg="gray-200 dark:dark-300"
           text="sm textDark dark:white"
           ring="hover:2"
