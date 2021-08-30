@@ -7,7 +7,7 @@ export default defineConfig({
   // https://windicss.org/posts/v30.html#attributify-mode
   attributify: true,
 
-  plugins: [typography()],
+  plugins: [typography(), require('windicss/plugin/line-clamp')],
   theme: {
     extend: {
       colors: {

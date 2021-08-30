@@ -104,3 +104,11 @@ export type Group = {
     theme: string;
   };
 };
+
+export type InboxMessage = {
+  attachment: string[];
+  created_at: firebase.firestore.Timestamp;
+  message: string;
+  receiver: string;
+  sender: string;
+};
